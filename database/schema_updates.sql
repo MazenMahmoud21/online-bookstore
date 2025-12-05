@@ -1,8 +1,3 @@
--- =============================================
--- تحديثات قاعدة البيانات - Database Schema Updates
--- Online Bookstore - Additional Tables
--- Run this after the main schema.sql
--- =============================================
 
 USE online_bookstore;
 
@@ -349,10 +344,4 @@ INSERT IGNORE INTO coupons (code, description, discount_type, discount_value, mi
 ('SAVE20', 'خصم 20 ريال على الطلبات فوق 100 ريال', 'fixed', 20.00, 100.00, NULL, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 6 MONTH)),
 ('BOOKS25', 'خصم 25% على جميع الكتب', 'percentage', 25.00, 75.00, 50.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 3 MONTH));
 
--- =============================================
--- تنظيف البيانات القديمة
--- Cleanup old data (scheduled job recommendation)
--- =============================================
--- Run this periodically to clean up old rate limit attempts
--- DELETE FROM rate_limit_attempts WHERE created_at < DATE_SUB(NOW(), INTERVAL 24 HOUR);
--- DELETE FROM password_resets WHERE expires_at < NOW();
+
