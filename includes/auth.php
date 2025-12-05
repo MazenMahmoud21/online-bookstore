@@ -4,6 +4,7 @@
  * دوال المصادقة
  */
 
+require_once __DIR__ . '/config.php';
 session_start();
 
 /**
@@ -27,7 +28,7 @@ function isAdmin() {
  */
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: /login.php');
+        header('Location: ' . url('login.php'));
         exit;
     }
 }
@@ -38,7 +39,7 @@ function requireLogin() {
 function requireAdmin() {
     requireLogin();
     if (!isAdmin()) {
-        header('Location: /index.php');
+        header('Location: ' . url('index.php'));
         exit;
     }
 }
@@ -66,7 +67,7 @@ function logoutUser() {
     }
     
     session_destroy();
-    header('Location: /index.php');
+    header('Location: ' . url('index.php'));
     exit;
 }
 

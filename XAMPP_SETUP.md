@@ -1,8 +1,8 @@
 # XAMPP Setup Guide - دليل تشغيل المشروع
 
-## ✅ All Files Updated!
+## ✅ All Fixed - Auto-Detection Enabled!
 
-The project has been updated to work properly with XAMPP. All CSS, JS, and navigation links now use the correct base URL.
+The project now **automatically detects** the correct folder path. No manual configuration needed!
 
 ## 🚀 Quick Start
 
@@ -10,6 +10,7 @@ The project has been updated to work properly with XAMPP. All CSS, JS, and navig
 ```
 C:\xampp\htdocs\online-bookstore\
 ```
+*(You can use any folder name - it will auto-detect!)*
 
 ### 2. Start XAMPP
 - Open XAMPP Control Panel
@@ -28,21 +29,7 @@ C:\xampp\htdocs\online-bookstore\
 http://localhost/online-bookstore/
 ```
 
-## 🔧 Configuration
-
-If you change the folder name or move to production, edit:
-**`includes/config.php`** - Line 8:
-
-```php
-// For XAMPP in htdocs/online-bookstore:
-define('BASE_URL', '/online-bookstore');
-
-// For production (root domain):
-define('BASE_URL', '');
-
-// For different folder name:
-define('BASE_URL', '/your-folder-name');
-```
+**That's it!** The CSS, images, and all links will work automatically. ✨
 
 ## 👤 Demo Accounts
 
@@ -53,40 +40,105 @@ define('BASE_URL', '/your-folder-name');
 
 ## 📁 What Was Fixed
 
+✅ **Auto-detection** of folder path  
 ✅ CSS loading path  
 ✅ JavaScript loading path  
 ✅ All navigation links  
 ✅ Form actions  
-✅ Image paths  
 ✅ Redirects after login/logout  
 ✅ Category links  
 ✅ Book detail links  
+✅ Admin panel navigation  
+✅ Customer area navigation  
+
+## 🔧 Advanced Configuration (Optional)
+
+If you want to manually set the base URL, edit:
+**`includes/config.php`** - Lines 18-19:
+
+```php
+// Auto mode (recommended):
+define('BASE_URL', $baseFolder);
+
+// Manual mode (for special cases):
+// define('BASE_URL', '/online-bookstore');  // For XAMPP
+// define('BASE_URL', '');  // For production root
+// define('BASE_URL', '/bookshop');  // For custom folder name
+```
 
 ## 🔍 Troubleshooting
 
+### Still Getting 404 Errors?
+
+**Clear your browser cache:**
+- Press `Ctrl + Shift + Delete`
+- Or try `Ctrl + F5` (hard refresh)
+
+**Check Apache is running:**
+- Look for green indicator next to Apache in XAMPP
+
+**Verify folder structure:**
+```
+C:\xampp\htdocs\online-bookstore\
+    ├── assets\
+    │   ├── css\
+    │   │   └── style.css
+    │   └── js\
+    │       └── main.js
+    ├── includes\
+    │   ├── config.php
+    │   ├── db.php
+    │   ├── auth.php
+    │   └── header.php
+    ├── index.php
+    └── ...
+```
+
 ### CSS Not Loading?
-1. Check folder is `C:\xampp\htdocs\online-bookstore\`
-2. Check file exists: `C:\xampp\htdocs\online-bookstore\assets\css\style.css`
-3. Clear browser cache (Ctrl+F5)
-4. Check `includes/config.php` BASE_URL matches your folder name
 
-### Database Error?
-1. Make sure MySQL is running in XAMPP
+1. Check file exists: `C:\xampp\htdocs\online-bookstore\assets\css\style.css`
+2. Open browser console (F12) → Network tab
+3. Look for 404 errors on CSS file
+4. Try accessing directly: `http://localhost/online-bookstore/assets/css/style.css`
+
+### Database Connection Error?
+
+1. Make sure MySQL is running (green in XAMPP)
 2. Verify database `online_bookstore` exists
-3. Check `includes/db.php` credentials (default: root / no password)
+3. Default credentials: username=`root`, password=*(empty)*
+4. Check diagnostics: `http://localhost/online-bookstore/diagnostics.php`
 
-### 404 Errors?
-1. Ensure Apache is running
-2. Check BASE_URL in `includes/config.php`
-3. Verify folder name matches BASE_URL
+## 📞 Diagnostic Tools
 
-## 📞 Support
+**System Status:**
+```
+http://localhost/online-bookstore/diagnostics.php
+```
+Shows PHP version, database drivers, connection status
 
-If issues persist:
-1. Check `http://localhost/online-bookstore/diagnostics.php`
-2. View browser console (F12) for JavaScript errors
-3. Check Apache error logs in XAMPP
+**Browser Console:**
+- Press `F12` → Console tab
+- Check for JavaScript errors
+
+**Apache Error Log:**
+- XAMPP Control Panel → Apache → Logs button
 
 ---
 
-**Project is now ready to run! 🎉**
+## 🎉 **Project Features**
+
+- 📚 12 Sample Books
+- 👥 5 Demo Users (1 Admin, 4 Customers)
+- 🏢 5 Publishers
+- 🛒 Shopping Cart System
+- 📊 Admin Dashboard
+- 📈 Sales Reports
+- 🇸🇦 Full Arabic RTL Support
+- 💳 Credit Card Validation
+- 📦 Order Management
+- 🔐 Secure Authentication
+
+---
+
+**Everything is configured and ready to run! 🚀**
+

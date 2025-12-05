@@ -8,7 +8,7 @@ require_once '../includes/auth.php';
 
 requireLogin();
 if (isAdmin()) {
-    header('Location: /admin/dashboard.php');
+    header('Location: ' . url('admin/dashboard.php'));
     exit;
 }
 
@@ -22,7 +22,7 @@ $order = dbQuerySingle(
 );
 
 if (!$order) {
-    header('Location: /customer/orders.php');
+    header('Location: ' . url('customer/orders.php'));
     exit;
 }
 

@@ -8,7 +8,7 @@ require_once '../includes/auth.php';
 
 requireLogin();
 if (isAdmin()) {
-    header('Location: /admin/dashboard.php');
+    header('Location: ' . url('admin/dashboard.php'));
     exit;
 }
 

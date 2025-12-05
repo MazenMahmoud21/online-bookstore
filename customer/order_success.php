@@ -9,7 +9,7 @@ require_once '../includes/auth.php';
 requireLogin();
 
 if (!isset($_SESSION['order_success'])) {
-    header('Location: /customer/orders.php');
+    header('Location: ' . url('customer/orders.php'));
     exit;
 }
 
@@ -25,7 +25,7 @@ $order = dbQuerySingle(
 );
 
 if (!$order) {
-    header('Location: /customer/orders.php');
+    header('Location: ' . url('customer/orders.php'));
     exit;
 }
 

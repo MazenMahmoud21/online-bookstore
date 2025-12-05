@@ -8,7 +8,7 @@ require_once '../includes/auth.php';
 
 requireLogin();
 if (isAdmin()) {
-    header('Location: /admin/dashboard.php');
+    header('Location: ' . url('admin/dashboard.php'));
     exit;
 }
 
@@ -20,7 +20,7 @@ $success = '';
 $cart = dbQuerySingle("SELECT id FROM shopping_cart WHERE customer_id = ?", [$customerId]);
 
 if (!$cart) {
-    header('Location: /customer/cart.php');
+    header('Location: ' . url('customer/cart.php'));
     exit;
 }
 
@@ -34,7 +34,7 @@ $cartItems = dbQuery(
 );
 
 if (empty($cartItems)) {
-    header('Location: /customer/cart.php');
+    header('Location: ' . url('customer/cart.php'));
     exit;
 }
 
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Redirect to success page
                 $_SESSION['order_success'] = $saleId;
-                header('Location: /customer/order_success.php');
+                header('Location: ' . url('customer/order_success.php'));
                 exit;
             } else {
                 $pdo->rollBack();

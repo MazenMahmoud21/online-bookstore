@@ -8,7 +8,7 @@ require_once '../includes/auth.php';
 
 requireLogin();
 if (isAdmin()) {
-    header('Location: /admin/dashboard.php');
+    header('Location: ' . url('admin/dashboard.php'));
     exit;
 }
 
@@ -75,7 +75,7 @@ require_once '../includes/header.php';
                             <p class="cart-item-price"><?php echo number_format($item['price'], 2); ?> ريال</p>
                         </div>
                         <div class="cart-item-quantity">
-                            <form method="POST" action="/customer/update_cart.php" style="display: flex; align-items: center; gap: 10px;">
+                            <form method="POST" action="<?php echo url('customer/update_cart.php'); ?>" style="display: flex; align-items: center; gap: 10px;">
                                 <input type="hidden" name="item_id" value="<?php echo $item['id']; ?>">
                                 <button type="button" onclick="changeQuantity(<?php echo $item['id']; ?>, -1)" class="btn btn-sm btn-secondary">-</button>
                                 <input type="number" name="quantity" value="<?php echo $item['qty']; ?>" 
