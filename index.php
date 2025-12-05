@@ -30,17 +30,39 @@ $stats = dbQuerySingle(
 
 <!-- Hero Section -->
 <section class="hero-section">
+    <div class="hero-background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
     <div class="hero-content">
         <div class="hero-text">
-            <h1 class="hero-title">Discover Your Next Great Read</h1>
-            <p class="hero-subtitle">Egypt's premier online bookstore with thousands of titles at your fingertips</p>
+            <div class="hero-badge">
+                <i data-feather="zap"></i>
+                <span>Your Literary Journey Starts Here</span>
+            </div>
+            
+            <h1 class="hero-title">
+                Discover Your Next
+                <span class="gradient-text">Great Read</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Egypt's premier online bookstore with thousands of titles at your fingertips. 
+                From bestsellers to rare finds, explore our curated collection.
+            </p>
             
             <form class="hero-search-box" action="<?php echo url('search.php'); ?>" method="GET">
                 <div class="search-input-wrapper">
                     <i data-feather="search"></i>
                     <input type="text" name="q" placeholder="Search for books, authors, or ISBN..." required>
+                    <div class="search-suggestions">
+                        <i data-feather="trending-up"></i>
+                        <span>Try: "Python", "Fiction", "History"</span>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-hero">
                     <span>Search</span>
                     <i data-feather="arrow-right"></i>
                 </button>
@@ -48,37 +70,73 @@ $stats = dbQuerySingle(
             
             <div class="hero-features">
                 <div class="hero-feature">
-                    <i data-feather="truck"></i>
-                    <span>Free Shipping</span>
+                    <div class="feature-icon">
+                        <i data-feather="truck"></i>
+                    </div>
+                    <div class="feature-text">
+                        <strong>Free Shipping</strong>
+                        <span>On orders over EGP 200</span>
+                    </div>
                 </div>
                 <div class="hero-feature">
-                    <i data-feather="check-circle"></i>
-                    <span>Secure Payment</span>
+                    <div class="feature-icon">
+                        <i data-feather="shield"></i>
+                    </div>
+                    <div class="feature-text">
+                        <strong>Secure Payment</strong>
+                        <span>100% safe & encrypted</span>
+                    </div>
                 </div>
                 <div class="hero-feature">
-                    <i data-feather="rotate-cw"></i>
-                    <span>Easy Returns</span>
+                    <div class="feature-icon">
+                        <i data-feather="rotate-cw"></i>
+                    </div>
+                    <div class="feature-text">
+                        <strong>Easy Returns</strong>
+                        <span>30-day return policy</span>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="hero-cta-group">
+                <a href="<?php echo url('books.php'); ?>" class="btn btn-primary btn-lg">
+                    <i data-feather="book-open"></i>
+                    <span>Browse Collection</span>
+                </a>
+                <?php if (!isLoggedIn()): ?>
+                    <a href="<?php echo url('signup.php'); ?>" class="btn btn-outline btn-lg">
+                        <i data-feather="user-plus"></i>
+                        <span>Sign Up Free</span>
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
         
         <div class="hero-image">
-            <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#1a4d2e;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#4caf50;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <rect x="100" y="100" width="120" height="180" fill="url(#bookGradient)" rx="5"/>
-                <rect x="105" y="105" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
-                <rect x="105" y="130" width="80" height="3" fill="rgba(255,255,255,0.5)" rx="2"/>
-                <rect x="105" y="140" width="90" height="3" fill="rgba(255,255,255,0.5)" rx="2"/>
-                <rect x="240" y="120" width="120" height="180" fill="#2e7d4e" rx="5"/>
-                <rect x="245" y="125" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
-                <rect x="180" y="140" width="120" height="180" fill="#5fa778" rx="5"/>
-                <rect x="185" y="145" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
-            </svg>
+            <div class="hero-book-stack">
+                <div class="book-3d book-1">
+                    <div class="book-front"></div>
+                    <div class="book-spine"></div>
+                    <div class="book-top"></div>
+                </div>
+                <div class="book-3d book-2">
+                    <div class="book-front"></div>
+                    <div class="book-spine"></div>
+                    <div class="book-top"></div>
+                </div>
+                <div class="book-3d book-3">
+                    <div class="book-front"></div>
+                    <div class="book-spine"></div>
+                    <div class="book-top"></div>
+                </div>
+            </div>
+            
+            <div class="floating-elements">
+                <div class="floating-element star-1">⭐</div>
+                <div class="floating-element star-2">📚</div>
+                <div class="floating-element star-3">✨</div>
+                <div class="floating-element star-4">📖</div>
+            </div>
         </div>
     </div>
 </section>
