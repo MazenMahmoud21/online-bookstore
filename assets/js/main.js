@@ -10,20 +10,34 @@
 function toggleMobileMenu() {
     const nav = document.getElementById('main-nav');
     const toggle = document.getElementById('mobile-menu-toggle');
+    const body = document.body;
     const isActive = nav.classList.toggle('active');
     
     // Update ARIA attributes
     toggle.setAttribute('aria-expanded', isActive);
-    toggle.setAttribute('aria-label', isActive ? 'إغلاق القائمة' : 'فتح القائمة');
+    toggle.setAttribute('aria-label', isActive ? 'Close Menu' : 'Open Menu');
     
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = isActive ? 'hidden' : '';
+    // Toggle body class for scroll lock
+    if (isActive) {
+        body.classList.add('menu-open');
+    } else {
+        body.classList.remove('menu-open');
+    }
     
-    // Animate menu items
+    // Animate toggle icon
+    const icon = toggle.querySelector('i');
+    if (icon) {
+        icon.setAttribute('data-feather', isActive ? 'x' : 'menu');
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    }
+    
+    // Animate menu items with stagger
     if (isActive) {
         const navItems = nav.querySelectorAll('li');
         navItems.forEach((item, index) => {
-            item.style.animation = `slideInRight 0.3s ease ${index * 0.1}s forwards`;
+            item.style.animation = `slideInMobile 0.3s ease ${index * 0.05}s forwards`;
         });
     }
 }
@@ -33,10 +47,28 @@ document.addEventListener('click', function(e) {
     const nav = document.getElementById('main-nav');
     const toggle = document.getElementById('mobile-menu-toggle');
     
-    if (nav && toggle && !nav.contains(e.target) && !toggle.contains(e.target)) {
-        nav.classList.remove('active');
-        toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+    if (nav && toggle && nav.classList.contains('active')) {
+        const isClickInsideNav = nav.contains(e.target);
+        const isClickOnToggle = toggle.contains(e.target);
+        
+        if (!isClickInsideNav && !isClickOnToggle) {
+            toggleMobileMenu();
+        }
+    }
+});
+
+// Close mobile menu when clicking on nav links
+document.addEventListener('DOMContentLoaded', function() {
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
     }
 });
 
@@ -46,12 +78,38 @@ document.addEventListener('keydown', function(e) {
         const nav = document.getElementById('main-nav');
         const toggle = document.getElementById('mobile-menu-toggle');
         if (nav && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            toggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            toggleMobileMenu();
             toggle.focus();
         }
     }
+});
+
+// Handle window resize
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        const nav = document.getElementById('main-nav');
+        const body = document.body;
+        
+        // Close menu and reset body scroll if window is resized above mobile breakpoint
+        if (window.innerWidth > 768 && nav && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            body.classList.remove('menu-open');
+            
+            const toggle = document.getElementById('mobile-menu-toggle');
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', 'false');
+                const icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.setAttribute('data-feather', 'menu');
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                    }
+                }
+            }
+        }
+    }, 250);
 });
 
 // =============================================

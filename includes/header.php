@@ -15,7 +15,6 @@ $pageTitle = $pageTitle ?? 'Egyptian Online Bookstore';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a4d2e">
     <meta name="color-scheme" content="light dark">
-    <base href="<?php echo rtrim(url(''), '/') . '/'; ?>">
     <title><?php echo htmlspecialchars($pageTitle); ?> | Egyptian Bookstore</title>
     
     <!-- Preconnect for performance -->
@@ -29,7 +28,7 @@ $pageTitle = $pageTitle ?? 'Egyptian Online Bookstore';
     <script src="https://unpkg.com/feather-icons"></script>
     
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -141,9 +140,99 @@ $pageTitle = $pageTitle ?? 'Egyptian Online Bookstore';
     </header>
     
     <script>
-        // Initialize Feather Icons
+        // Initialize Feather Icons immediately
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+        
+        // Mobile menu setup - runs immediately to ensure it works
         document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
+            
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            
+            if (mobileToggle && mainNav) {
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const body = document.body;
+                    const isActive = mainNav.classList.toggle('active');
+                    
+                    mobileToggle.setAttribute('aria-expanded', isActive);
+                    mobileToggle.setAttribute('aria-label', isActive ? 'Close Menu' : 'Open Menu');
+                    
+                    if (isActive) {
+                        body.classList.add('menu-open');
+                    } else {
+                        body.classList.remove('menu-open');
+                    }
+                    
+                    const icon = mobileToggle.querySelector('i');
+                    if (icon) {
+                        icon.setAttribute('data-feather', isActive ? 'x' : 'menu');
+                        if (typeof feather !== 'undefined') {
+                            feather.replace();
+                        }
+                    }
+                });
+                
+                // Close menu when clicking nav links
+                const navLinks = mainNav.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768 && mainNav.classList.contains('active')) {
+                            mainNav.classList.remove('active');
+                            body.classList.remove('menu-open');
+                            mobileToggle.setAttribute('aria-expanded', 'false');
+                            const icon = mobileToggle.querySelector('i');
+                            if (icon) {
+                                icon.setAttribute('data-feather', 'menu');
+                                if (typeof feather !== 'undefined') {
+                                    feather.replace();
+                                }
+                            }
+                        }
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (mainNav.classList.contains('active')) {
+                        const isClickInsideNav = mainNav.contains(e.target);
+                        const isClickOnToggle = mobileToggle.contains(e.target);
+                        
+                        if (!isClickInsideNav && !isClickOnToggle) {
+                            mainNav.classList.remove('active');
+                            body.classList.remove('menu-open');
+                            mobileToggle.setAttribute('aria-expanded', 'false');
+                            const icon = mobileToggle.querySelector('i');
+                            if (icon) {
+                                icon.setAttribute('data-feather', 'menu');
+                                if (typeof feather !== 'undefined') {
+                                    feather.replace();
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Close menu on escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        body.classList.remove('menu-open');
+                        mobileToggle.setAttribute('aria-expanded', 'false');
+                        mobileToggle.focus();
+                        const icon = mobileToggle.querySelector('i');
+                        if (icon) {
+                            icon.setAttribute('data-feather', 'menu');
+                            if (typeof feather !== 'undefined') {
+                                feather.replace();
+                            }
+                        }
+                    }
+                });
+            }
         });
     </script>
     
