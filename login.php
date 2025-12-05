@@ -15,29 +15,33 @@ if (isLoggedIn()) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = sanitize($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-    
-    if (empty($username) || empty($password)) {
-        $error = 'الرجاء إدخال اسم المستخدم وكلمة المرور';
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error = 'خطأ في التحقق. الرجاء المحاولة مرة أخرى.';
     } else {
-        $customer = dbQuerySingle(
-            "SELECT * FROM customers WHERE username = ? OR email = ?",
-            [$username, $username]
-        );
+        $username = sanitize($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
         
-        if ($customer && verifyPassword($password, $customer['password_hash'])) {
-            loginUser($customer);
-            
-            // Redirect based on role
-            if ($customer['is_admin']) {
-                header('Location: /admin/dashboard.php');
-            } else {
-                header('Location: /index.php');
-            }
-            exit;
+        if (empty($username) || empty($password)) {
+            $error = 'الرجاء إدخال اسم المستخدم وكلمة المرور';
         } else {
-            $error = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+            $customer = dbQuerySingle(
+                "SELECT * FROM customers WHERE username = ? OR email = ?",
+                [$username, $username]
+            );
+            
+            if ($customer && verifyPassword($password, $customer['password_hash'])) {
+                loginUser($customer);
+                
+                // Redirect based on role
+                if ($customer['is_admin']) {
+                    header('Location: /admin/dashboard.php');
+                } else {
+                    header('Location: /index.php');
+                }
+                exit;
+            } else {
+                $error = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+            }
         }
     }
 }
@@ -55,6 +59,7 @@ require_once 'includes/header.php';
         <?php endif; ?>
         
         <form method="POST" action="" id="loginForm" data-validate>
+            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <div class="form-group">
                 <label for="username">اسم المستخدم أو البريد الإلكتروني</label>
                 <input type="text" id="username" name="username" class="form-control" 

@@ -185,6 +185,7 @@ require_once '../includes/header.php';
                     
                     <div class="alert alert-info" style="margin-bottom: 0;">
                         🔒 بياناتك مؤمنة ومشفرة
+                        <!-- Demo/Educational test card - Remove in production -->
                         <br><small>للاختبار استخدم: 4532015112830366 | 12/25 | 123</small>
                     </div>
                 </div>

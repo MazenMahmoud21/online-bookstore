@@ -161,6 +161,7 @@ function updateCartQuantity(itemId, quantity) {
         }
     })
     .catch(error => {
+        console.error('Cart update error:', error);
         showNotification('حدث خطأ أثناء تحديث السلة', 'error');
     });
 }
@@ -183,6 +184,7 @@ function addToCart(bookIsbn, quantity = 1) {
         }
     })
     .catch(error => {
+        console.error('Add to cart error:', error);
         showNotification('حدث خطأ أثناء الإضافة إلى السلة', 'error');
     });
 }
@@ -213,6 +215,7 @@ function removeFromCart(itemId) {
         }
     })
     .catch(error => {
+        console.error('Remove from cart error:', error);
         showNotification('حدث خطأ أثناء الحذف', 'error');
     });
 }

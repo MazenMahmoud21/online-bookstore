@@ -24,25 +24,28 @@ $formData = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $formData = [
-        'username' => sanitize($_POST['username'] ?? ''),
-        'email' => sanitize($_POST['email'] ?? ''),
-        'first_name' => sanitize($_POST['first_name'] ?? ''),
-        'last_name' => sanitize($_POST['last_name'] ?? ''),
-        'phone' => sanitize($_POST['phone'] ?? ''),
-        'address' => sanitize($_POST['address'] ?? '')
-    ];
-    $password = $_POST['password'] ?? '';
-    $password_confirm = $_POST['password_confirm'] ?? '';
-    
-    // Validation
-    if (empty($formData['username']) || empty($formData['email']) || 
-        empty($formData['first_name']) || empty($formData['last_name']) || empty($password)) {
-        $error = 'الرجاء ملء جميع الحقول المطلوبة';
-    } elseif (strlen($formData['username']) < 3) {
-        $error = 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل';
-    } elseif (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
-        $error = 'البريد الإلكتروني غير صالح';
+    if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
+        $error = 'خطأ في التحقق. الرجاء المحاولة مرة أخرى.';
+    } else {
+        $formData = [
+            'username' => sanitize($_POST['username'] ?? ''),
+            'email' => sanitize($_POST['email'] ?? ''),
+            'first_name' => sanitize($_POST['first_name'] ?? ''),
+            'last_name' => sanitize($_POST['last_name'] ?? ''),
+            'phone' => sanitize($_POST['phone'] ?? ''),
+            'address' => sanitize($_POST['address'] ?? '')
+        ];
+        $password = $_POST['password'] ?? '';
+        $password_confirm = $_POST['password_confirm'] ?? '';
+        
+        // Validation
+        if (empty($formData['username']) || empty($formData['email']) || 
+            empty($formData['first_name']) || empty($formData['last_name']) || empty($password)) {
+            $error = 'الرجاء ملء جميع الحقول المطلوبة';
+        } elseif (strlen($formData['username']) < 3) {
+            $error = 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل';
+        } elseif (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
+            $error = 'البريد الإلكتروني غير صالح';
     } elseif (strlen($password) < 6) {
         $error = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
     } elseif ($password !== $password_confirm) {
@@ -97,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+    }
 }
 
 $pageTitle = 'إنشاء حساب جديد';
@@ -119,6 +123,7 @@ require_once 'includes/header.php';
         <?php endif; ?>
         
         <form method="POST" action="" id="signupForm" data-validate>
+            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="form-group">
                     <label for="first_name">الاسم الأول *</label>
