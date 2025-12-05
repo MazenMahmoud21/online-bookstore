@@ -59,19 +59,19 @@ require_once '../includes/header.php';
     <!-- Main Content -->
     <main>
         <div class="page-header">
-            <h1>📊 لوحة التحكم</h1>
+            <h1><i class="ph-duotone ph-gauge"></i> لوحة التحكم</h1>
             <p>مرحباً <?php echo htmlspecialchars(getCurrentUserName()); ?></p>
         </div>
         
         <!-- Stats Grid -->
         <div class="dashboard-grid">
             <div class="stat-card">
-                <div class="icon">📚</div>
+                <div class="icon"><i class="ph-duotone ph-books"></i></div>
                 <div class="value"><?php echo number_format($stats['book_count']); ?></div>
                 <div class="label">كتاب</div>
             </div>
             <div class="stat-card">
-                <div class="icon">👥</div>
+                <div class="icon"><i class="ph-duotone ph-users"></i></div>
                 <div class="value"><?php echo number_format($stats['customer_count']); ?></div>
                 <div class="label">عميل</div>
             </div>
@@ -81,12 +81,12 @@ require_once '../includes/header.php';
                 <div class="label">طلب</div>
             </div>
             <div class="stat-card">
-                <div class="icon">💰</div>
+                <div class="icon"><i class="ph-duotone ph-currency-circle-dollar"></i></div>
                 <div class="value"><?php echo number_format($stats['monthly_revenue'], 2); ?></div>
                 <div class="label">إيرادات الشهر (ريال)</div>
             </div>
             <div class="stat-card">
-                <div class="icon">📦</div>
+                <div class="icon"><i class="ph-duotone ph-package"></i></div>
                 <div class="value"><?php echo $stats['pending_orders']; ?></div>
                 <div class="label">طلب توريد معلق</div>
             </div>
@@ -96,7 +96,7 @@ require_once '../includes/header.php';
             <!-- Recent Sales -->
             <div class="card">
                 <div class="card-header">
-                    <h3>💰 آخر المبيعات</h3>
+                    <h3><i class="ph ph-currency-circle-dollar"></i> آخر المبيعات</h3>
                 </div>
                 <div class="card-body" style="padding: 0;">
                     <?php if (empty($recentSales)): ?>
@@ -130,7 +130,7 @@ require_once '../includes/header.php';
             <!-- Low Stock Alert -->
             <div class="card">
                 <div class="card-header" style="background-color: var(--warning-color);">
-                    <h3>⚠️ تنبيه المخزون</h3>
+                    <h3><i class="ph ph-warning-circle"></i> تنبيه المخزون</h3>
                 </div>
                 <div class="card-body" style="padding: 0;">
                     <?php if (empty($lowStockBooks)): ?>

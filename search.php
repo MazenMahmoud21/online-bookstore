@@ -5,6 +5,7 @@
 
 $pageTitle = 'نتائج البحث';
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
 require_once 'includes/header.php';
 
 $query = sanitize($_GET['q'] ?? '');
@@ -83,7 +84,7 @@ if ($query) {
 ?>
 
 <div class="page-header">
-    <h1>🔍 نتائج البحث</h1>
+    <h1><i class="ph-duotone ph-magnifying-glass"></i> نتائج البحث</h1>
     <?php if ($query): ?>
         <p>نتائج البحث عن: "<?php echo htmlspecialchars($query); ?>"</p>
     <?php endif; ?>
@@ -112,7 +113,7 @@ if ($query) {
                 </select>
             </div>
             
-            <button type="submit" class="btn btn-primary">🔍 بحث</button>
+            <button type="submit" class="btn btn-primary"><i class="ph ph-magnifying-glass"></i> بحث</button>
         </form>
     </div>
 </div>
@@ -120,7 +121,7 @@ if ($query) {
 <!-- Results -->
 <?php if (!$query): ?>
     <div class="empty-state">
-        <div class="empty-state-icon">🔍</div>
+        <div class="empty-state-icon"><i class="ph-duotone ph-magnifying-glass"></i></div>
         <h3>ابحث عن كتاب</h3>
         <p>أدخل كلمة البحث للعثور على الكتب</p>
     </div>
@@ -139,7 +140,7 @@ if ($query) {
     <div class="books-grid">
         <?php foreach ($books as $book): ?>
             <div class="book-card">
-                <div class="book-card-image">📕</div>
+                <div class="book-card-image"><i class="ph-duotone ph-book"></i></div>
                 <div class="book-card-content">
                     <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
                     <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>
@@ -161,7 +162,7 @@ if ($query) {
                     <a href="/book.php?isbn=<?php echo urlencode($book['isbn']); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
                     <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
                         <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
-                            🛒 أضف
+                            <i class="ph ph-shopping-cart"></i> أضف
                         </button>
                     <?php endif; ?>
                 </div>

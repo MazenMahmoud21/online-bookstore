@@ -11,7 +11,7 @@ requireAdmin();
 $saleId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($saleId <= 0) {
-    header('Location: /admin/sales.php');
+    header('Location: ' . url('admin/sales.php'));
     exit;
 }
 
@@ -25,7 +25,7 @@ $sale = dbQuerySingle("
 ", [$saleId]);
 
 if (!$sale) {
-    header('Location: /admin/sales.php');
+    header('Location: ' . url('admin/sales.php'));
     exit;
 }
 

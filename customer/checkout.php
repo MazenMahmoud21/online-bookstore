@@ -129,7 +129,7 @@ require_once '../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h1>💳 إتمام الشراء</h1>
+    <h1><i class="ph-duotone ph-credit-card"></i> إتمام الشراء</h1>
 </div>
 
 <?php if ($error): ?>
@@ -161,7 +161,7 @@ require_once '../includes/header.php';
             <!-- Payment -->
             <div class="card">
                 <div class="card-header">
-                    <h3>💳 بيانات الدفع</h3>
+                    <h3><i class="ph ph-credit-card"></i> بيانات الدفع</h3>
                 </div>
                 <div class="card-body">
                     <div class="form-group">

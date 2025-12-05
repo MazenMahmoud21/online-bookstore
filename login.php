@@ -52,7 +52,7 @@ require_once 'includes/header.php';
 
 <div class="auth-container">
     <div class="auth-card">
-        <h2>🔐 تسجيل الدخول</h2>
+        <h2><i class="ph-duotone ph-lock-key"></i> تسجيل الدخول</h2>
         
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -77,12 +77,13 @@ require_once 'includes/header.php';
         </form>
         
         <div class="auth-footer">
+            <p><a href="<?php echo url('forgot_password.php'); ?>">نسيت كلمة المرور؟</a></p>
             <p>ليس لديك حساب؟ <a href="<?php echo url('signup.php'); ?>">إنشاء حساب جديد</a></p>
         </div>
     </div>
     
     <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px;">
-        <strong>📝 بيانات تجريبية للدخول:</strong>
+        <strong><i class="ph ph-info"></i> بيانات تجريبية للدخول:</strong>
         <p style="margin: 10px 0 5px;">
             <strong>مدير:</strong> admin / password
         </p>

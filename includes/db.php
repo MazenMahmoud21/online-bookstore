@@ -4,6 +4,8 @@
  * ملف الاتصال بقاعدة البيانات
  */
 
+require_once __DIR__ . '/config.php';
+
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'online_bookstore');
 define('DB_USER', 'root');

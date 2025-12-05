@@ -5,6 +5,7 @@
 
 $pageTitle = 'الكتب';
 require_once 'includes/db.php';
+require_once 'includes/auth.php';
 require_once 'includes/header.php';
 
 // Pagination
@@ -62,7 +63,7 @@ $categories = dbQuery("SELECT DISTINCT category FROM books ORDER BY category");
 ?>
 
 <div class="page-header">
-    <h1>📚 الكتب</h1>
+    <h1><i class="ph-duotone ph-books"></i> الكتب</h1>
     <p>تصفح مجموعتنا من الكتب العربية</p>
 </div>
 
@@ -108,7 +109,7 @@ $categories = dbQuery("SELECT DISTINCT category FROM books ORDER BY category");
 <!-- Books Grid -->
 <?php if (empty($books)): ?>
     <div class="empty-state">
-        <div class="empty-state-icon">📚</div>
+        <div class="empty-state-icon"><i class="ph-duotone ph-books"></i></div>
         <h3>لا توجد كتب</h3>
         <p>لم نجد أي كتب تطابق بحثك</p>
         <a href="/books.php" class="btn btn-primary">عرض جميع الكتب</a>
@@ -117,7 +118,7 @@ $categories = dbQuery("SELECT DISTINCT category FROM books ORDER BY category");
     <div class="books-grid">
         <?php foreach ($books as $book): ?>
             <div class="book-card">
-                <div class="book-card-image">📕</div>
+                <div class="book-card-image"><i class="ph-duotone ph-book"></i></div>
                 <div class="book-card-content">
                     <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
                     <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>
@@ -139,7 +140,7 @@ $categories = dbQuery("SELECT DISTINCT category FROM books ORDER BY category");
                     <a href="/book.php?isbn=<?php echo urlencode($book['isbn']); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
                     <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
                         <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
-                            🛒 أضف
+                            <i class="ph ph-shopping-cart"></i> أضف
                         </button>
                     <?php endif; ?>
                 </div>

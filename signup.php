@@ -8,7 +8,7 @@ require_once 'includes/auth.php';
 
 // Redirect if already logged in
 if (isLoggedIn()) {
-    header('Location: /index.php');
+    header('Location: ' . url('index.php'));
     exit;
 }
 
@@ -109,7 +109,7 @@ require_once 'includes/header.php';
 
 <div class="auth-container">
     <div class="auth-card">
-        <h2>📝 إنشاء حساب جديد</h2>
+        <h2><i class="ph-duotone ph-user-plus"></i> إنشاء حساب جديد</h2>
         
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>

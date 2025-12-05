@@ -30,34 +30,34 @@ $stats = dbQuerySingle(
 
 <!-- Hero Section -->
 <section class="hero">
-    <h1>🏠 مرحباً بكم في المكتبة الإلكترونية</h1>
+    <h1><i class="ph-duotone ph-house"></i> مرحباً بكم في المكتبة الإلكترونية</h1>
     <p>وجهتكم الأولى للكتب العربية في المملكة العربية السعودية</p>
     
     <form class="search-box" action="<?php echo url('search.php'); ?>" method="GET">
         <input type="text" name="q" placeholder="ابحث عن كتاب بالعنوان، المؤلف، أو ISBN..." required>
-        <button type="submit" class="btn btn-secondary">🔍 بحث</button>
+        <button type="submit" class="btn btn-secondary"><i class="ph ph-magnifying-glass"></i> بحث</button>
     </form>
 </section>
 
 <!-- Statistics -->
 <section class="dashboard-grid" style="margin-bottom: 40px;">
     <div class="stat-card">
-        <div class="icon">📚</div>
+        <div class="icon"><i class="ph-duotone ph-books"></i></div>
         <div class="value"><?php echo number_format($stats['book_count']); ?></div>
         <div class="label">كتاب متوفر</div>
     </div>
     <div class="stat-card">
-        <div class="icon">👥</div>
+        <div class="icon"><i class="ph-duotone ph-users"></i></div>
         <div class="value"><?php echo number_format($stats['customer_count']); ?></div>
         <div class="label">عميل مسجل</div>
     </div>
     <div class="stat-card">
-        <div class="icon">🏢</div>
+        <div class="icon"><i class="ph-duotone ph-buildings"></i></div>
         <div class="value"><?php echo number_format($stats['publisher_count']); ?></div>
         <div class="label">دار نشر</div>
     </div>
     <div class="stat-card">
-        <div class="icon">🚚</div>
+        <div class="icon"><i class="ph-duotone ph-truck"></i></div>
         <div class="value">مجاني</div>
         <div class="label">التوصيل للرياض</div>
     </div>
@@ -66,7 +66,7 @@ $stats = dbQuerySingle(
 <!-- Categories -->
 <section style="margin-bottom: 40px;">
     <div class="page-header">
-        <h2>📂 تصفح حسب التصنيف</h2>
+        <h2><i class="ph-duotone ph-folder-open"></i> تصفح حسب التصنيف</h2>
     </div>
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <?php foreach ($categories as $cat): ?>
@@ -81,13 +81,13 @@ $stats = dbQuerySingle(
 <!-- Featured Books -->
 <section>
     <div class="page-header">
-        <h2>📖 أحدث الكتب</h2>
+        <h2><i class="ph-duotone ph-book-open"></i> أحدث الكتب</h2>
         <p>اكتشف أحدث الإصدارات في مكتبتنا</p>
     </div>
     
     <?php if (empty($featuredBooks)): ?>
         <div class="empty-state">
-            <div class="empty-state-icon">📚</div>
+            <div class="empty-state-icon"><i class="ph-duotone ph-books"></i></div>
             <h3>لا توجد كتب حالياً</h3>
             <p>سيتم إضافة كتب جديدة قريباً</p>
         </div>
@@ -95,7 +95,7 @@ $stats = dbQuerySingle(
         <div class="books-grid">
             <?php foreach ($featuredBooks as $book): ?>
                 <div class="book-card">
-                    <div class="book-card-image">📕</div>
+                    <div class="book-card-image"><i class="ph-duotone ph-book"></i></div>
                     <div class="book-card-content">
                         <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
                         <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>

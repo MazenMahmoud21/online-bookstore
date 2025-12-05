@@ -46,7 +46,7 @@ require_once '../includes/header.php';
 </div>
 
 <div class="page-header">
-    <h1>📦 تفاصيل الطلب #<?php echo $orderId; ?></h1>
+    <h1><i class="ph-duotone ph-package"></i> تفاصيل الطلب #<?php echo $orderId; ?></h1>
 </div>
 
 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">

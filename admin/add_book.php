@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]
                 );
                 
-                header('Location: /admin/books.php?added=1');
+                header('Location: ' . url('admin/books.php?added=1'));
                 exit;
             } catch (PDOException $e) {
                 $error = 'حدث خطأ أثناء إضافة الكتاب';

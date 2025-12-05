@@ -100,7 +100,7 @@ require_once '../includes/header.php';
     <!-- Profile Info -->
     <div class="card">
         <div class="card-header">
-            <h3>📋 البيانات الشخصية</h3>
+            <h3><i class="ph ph-user-circle"></i> البيانات الشخصية</h3>
         </div>
         <div class="card-body">
             <form method="POST" action="">
@@ -196,7 +196,7 @@ require_once '../includes/header.php';
         ?>
         <div class="dashboard-grid">
             <div class="stat-card">
-                <div class="icon">📦</div>
+                <div class="icon"><i class="ph-duotone ph-package"></i></div>
                 <div class="value"><?php echo $stats['order_count']; ?></div>
                 <div class="label">طلب مكتمل</div>
             </div>

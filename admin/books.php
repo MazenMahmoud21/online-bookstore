@@ -49,7 +49,7 @@ $books = dbQuery(
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_isbn'])) {
     $isbn = sanitize($_POST['delete_isbn']);
     dbExecute("DELETE FROM books WHERE isbn = ?", [$isbn]);
-    header('Location: /admin/books.php?deleted=1');
+    header('Location: ' . url('admin/books.php?deleted=1'));
     exit;
 }
 

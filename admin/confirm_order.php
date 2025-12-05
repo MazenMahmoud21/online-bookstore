@@ -10,8 +10,8 @@ requireAdmin();
 
 $orderId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-if ($orderId <= 0) {
-    header('Location: /admin/view_orders.php');
+if (!$orderId) {
+    header('Location: ' . url('admin/view_orders.php'));
     exit;
 }
 
@@ -22,7 +22,7 @@ $order = dbQuerySingle(
 );
 
 if (!$order) {
-    header('Location: /admin/view_orders.php');
+    header('Location: ' . url('admin/view_orders.php'));
     exit;
 }
 

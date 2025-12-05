@@ -11,7 +11,7 @@ requireAdmin();
 $isbn = isset($_GET['isbn']) ? sanitize($_GET['isbn']) : '';
 
 if (empty($isbn)) {
-    header('Location: /admin/books.php');
+    header('Location: ' . url('admin/books.php'));
     exit;
 }
 
@@ -19,7 +19,7 @@ if (empty($isbn)) {
 $book = dbQuerySingle("SELECT * FROM books WHERE isbn = ?", [$isbn]);
 
 if (!$book) {
-    header('Location: /admin/books.php');
+    header('Location: ' . url('admin/books.php'));
     exit;
 }
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]
             );
             
-            header('Location: /admin/books.php?updated=1');
+            header('Location: ' . url('admin/books.php?updated=1'));
             exit;
         } catch (PDOException $e) {
             $error = 'حدث خطأ أثناء تحديث الكتاب';

@@ -46,12 +46,12 @@ require_once '../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h1>🛒 سلة التسوق</h1>
+    <h1><i class="ph-duotone ph-shopping-cart"></i> سلة التسوق</h1>
 </div>
 
 <?php if (empty($cartItems)): ?>
     <div class="empty-state">
-        <div class="empty-state-icon">🛒</div>
+        <div class="empty-state-icon"><i class="ph-duotone ph-shopping-cart"></i></div>
         <h3>سلة التسوق فارغة</h3>
         <p>لم تضف أي كتب إلى السلة بعد</p>
         <a href="/books.php" class="btn btn-primary">تصفح الكتب</a>
@@ -66,7 +66,7 @@ require_once '../includes/header.php';
             <div class="card-body" style="padding: 0;">
                 <?php foreach ($cartItems as $item): ?>
                     <div class="cart-item" data-item-id="<?php echo $item['id']; ?>">
-                        <div class="cart-item-image">📕</div>
+                        <div class="cart-item-image"><i class="ph-duotone ph-book"></i></div>
                         <div class="cart-item-details">
                             <h4 class="cart-item-title"><?php echo htmlspecialchars($item['title']); ?></h4>
                             <p style="color: var(--text-light); font-size: 0.9rem;">
@@ -89,7 +89,7 @@ require_once '../includes/header.php';
                             <strong><?php echo number_format($item['price'] * $item['qty'], 2); ?> ريال</strong>
                             <br>
                             <button onclick="removeFromCart(<?php echo $item['id']; ?>)" class="btn btn-danger btn-sm" style="margin-top: 10px;">
-                                🗑️ حذف
+                                <i class="ph ph-trash"></i> حذف
                             </button>
                         </div>
                     </div>

@@ -1,25 +1,332 @@
 /**
  * Online Bookstore - Main JavaScript
  * نظام المكتبة الإلكترونية - ملف جافاسكربت الرئيسي
+ * Modern FAANG-Level Features
  */
 
-// Mobile Menu Toggle
+// =============================================
+// Mobile Menu Enhanced
+// =============================================
 function toggleMobileMenu() {
-    const nav = document.querySelector('.main-nav');
-    nav.classList.toggle('active');
+    const nav = document.getElementById('main-nav');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const isActive = nav.classList.toggle('active');
+    
+    // Update ARIA attributes
+    toggle.setAttribute('aria-expanded', isActive);
+    toggle.setAttribute('aria-label', isActive ? 'إغلاق القائمة' : 'فتح القائمة');
+    
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isActive ? 'hidden' : '';
+    
+    // Animate menu items
+    if (isActive) {
+        const navItems = nav.querySelectorAll('li');
+        navItems.forEach((item, index) => {
+            item.style.animation = `slideInRight 0.3s ease ${index * 0.1}s forwards`;
+        });
+    }
 }
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', function(e) {
-    const nav = document.querySelector('.main-nav');
-    const toggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.getElementById('main-nav');
+    const toggle = document.getElementById('mobile-menu-toggle');
     
     if (nav && toggle && !nav.contains(e.target) && !toggle.contains(e.target)) {
         nav.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
     }
 });
 
-// Form Validation
+// Close mobile menu on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const nav = document.getElementById('main-nav');
+        const toggle = document.getElementById('mobile-menu-toggle');
+        if (nav && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+            toggle.focus();
+        }
+    }
+});
+
+// =============================================
+// Scroll-triggered Animations
+// =============================================
+class ScrollAnimations {
+    constructor() {
+        this.observer = null;
+        this.init();
+    }
+
+    init() {
+        // Intersection Observer for scroll animations
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optionally unobserve after animation
+                    // this.observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        // Observe all elements with animate-on-scroll class
+        this.observeElements();
+    }
+
+    observeElements() {
+        const elements = document.querySelectorAll('.animate-on-scroll');
+        elements.forEach(el => this.observer.observe(el));
+    }
+
+    // Call this method when new content is added dynamically
+    refresh() {
+        this.observeElements();
+    }
+}
+
+// =============================================
+// Header Scroll Effect
+// =============================================
+let lastScrollTop = 0;
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.main-header');
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Add scrolled class for shadow
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+    
+    lastScrollTop = scrollTop;
+}, { passive: true });
+
+// =============================================
+// Real-time Search Suggestions
+// =============================================
+class SearchSuggestions {
+    constructor() {
+        this.input = document.getElementById('search-input');
+        this.container = document.getElementById('search-suggestions');
+        this.debounceTimer = null;
+        this.minChars = 2;
+        
+        if (this.input && this.container) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.input.addEventListener('input', (e) => {
+            clearTimeout(this.debounceTimer);
+            const query = e.target.value.trim();
+            
+            if (query.length >= this.minChars) {
+                this.debounceTimer = setTimeout(() => {
+                    this.fetchSuggestions(query);
+                }, 300);
+            } else {
+                this.hideSuggestions();
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.input.contains(e.target) && !this.container.contains(e.target)) {
+                this.hideSuggestions();
+            }
+        });
+
+        // Keyboard navigation
+        this.input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.hideSuggestions();
+            }
+        });
+    }
+
+    async fetchSuggestions(query) {
+        try {
+            // Simulate API call - replace with actual endpoint
+            // const response = await fetch(`/api/search-suggestions.php?q=${encodeURIComponent(query)}`);
+            // const data = await response.json();
+            
+            // Mock data for demonstration
+            const mockData = [
+                { title: 'البحث عن: ' + query, type: 'query' },
+                { title: 'كتاب مشهور 1', author: 'المؤلف 1', type: 'book' },
+                { title: 'كتاب مشهور 2', author: 'المؤلف 2', type: 'book' }
+            ];
+            
+            this.showSuggestions(mockData);
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    }
+
+    showSuggestions(items) {
+        if (items.length === 0) {
+            this.hideSuggestions();
+            return;
+        }
+
+        const html = items.map(item => {
+            if (item.type === 'query') {
+                return `
+                    <div class="search-suggestion-item">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <span>${item.title}</span>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="search-suggestion-item">
+                        <i class="ph ph-book"></i>
+                        <div>
+                            <div><strong>${item.title}</strong></div>
+                            <small>${item.author}</small>
+                        </div>
+                    </div>
+                `;
+            }
+        }).join('');
+
+        this.container.innerHTML = html;
+        this.container.classList.add('active');
+    }
+
+    hideSuggestions() {
+        this.container.classList.remove('active');
+    }
+}
+
+// =============================================
+// Image Lazy Loading (with fallback for older browsers)
+// =============================================
+function initLazyLoading() {
+    if ('loading' in HTMLImageElement.prototype) {
+        // Native lazy loading supported
+        const images = document.querySelectorAll('img[data-src]');
+        images.forEach(img => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        });
+    } else {
+        // Fallback to Intersection Observer
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    img.classList.remove('lazy');
+                    observer.unobserve(img);
+                }
+            });
+        });
+
+        const images = document.querySelectorAll('img[data-src]');
+        images.forEach(img => imageObserver.observe(img));
+    }
+}
+
+// =============================================
+// Modern Toast Notification System
+// =============================================
+class Toast Notification {
+    constructor() {
+        this.container = document.getElementById('toast-container');
+        if (!this.container) {
+            this.container = document.createElement('div');
+            this.container.id = 'toast-container';
+            this.container.className = 'toast-container';
+            document.body.appendChild(this.container);
+        }
+    }
+
+    show(message, type = 'info', title = null, duration = 4000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        const icons = {
+            success: 'ph-check-circle',
+            error: 'ph-x-circle',
+            warning: 'ph-warning-circle',
+            info: 'ph-info'
+        };
+
+        const titles = {
+            success: 'نجح',
+            error: 'خطأ',
+            warning: 'تحذير',
+            info: 'معلومة'
+        };
+
+        toast.innerHTML = `
+            <i class="ph-duotone ${icons[type]} toast-icon"></i>
+            <div class="toast-content">
+                ${title ? `<div class="toast-title">${title}</div>` : `<div class="toast-title">${titles[type]}</div>`}
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.remove()">
+                <i class="ph ph-x"></i>
+            </button>
+        `;
+
+        this.container.appendChild(toast);
+
+        // Auto-remove after duration
+        if (duration > 0) {
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        return toast;
+    }
+
+    success(message, title = null, duration = 4000) {
+        return this.show(message, 'success', title, duration);
+    }
+
+    error(message, title = null, duration = 5000) {
+        return this.show(message, 'error', title, duration);
+    }
+
+    warning(message, title = null, duration = 4000) {
+        return this.show(message, 'warning', title, duration);
+    }
+
+    info(message, title = null, duration = 4000) {
+        return this.show(message, 'info', title, duration);
+    }
+}
+
+// Create global toast instance
+const toast = new ToastNotification();
+
+// Legacy function for backward compatibility
+function showNotification(message, type = 'info') {
+    toast.show(message, type);
+}
+
+// =============================================
+// Enhanced Form Validation
+// =============================================
 function validateForm(formId) {
     const form = document.getElementById(formId);
     if (!form) return true;
@@ -420,6 +727,17 @@ function exportToCSV(tableId, filename) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Scroll Animations
+    const scrollAnimations = new ScrollAnimations();
+    
+    // Initialize Search Suggestions
+    if (document.getElementById('search-input')) {
+        new SearchSuggestions();
+    }
+    
+    // Initialize Lazy Loading
+    initLazyLoading();
+    
     // Auto-hide alerts after 5 seconds
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {
@@ -453,20 +771,274 @@ document.addEventListener('DOMContentLoaded', function() {
             formatExpiryDate(this);
         });
     }
+    
+    // Add animate-on-scroll class to cards and sections
+    const animatableElements = document.querySelectorAll('.book-card, .card, .stat-card, .hero');
+    animatableElements.forEach(el => {
+        el.classList.add('animate-on-scroll');
+    });
+    scrollAnimations.refresh();
+    
+    // Keyboard shortcuts
+    setupKeyboardShortcuts();
 });
 
-// Add CSS animation for notifications
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
+// =============================================
+// Loading Overlay
+// =============================================
+const LoadingOverlay = {
+    show() {
+        let overlay = document.getElementById('loading-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'loading-overlay';
+            overlay.className = 'loading-overlay';
+            overlay.innerHTML = '<div class="loading-spinner"><i class="ph-duotone ph-spinner"></i></div>';
+            document.body.appendChild(overlay);
         }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        overlay.style.display = 'flex';
+        setTimeout(() => overlay.classList.add('active'), 10);
+    },
+    
+    hide() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
         }
     }
-`;
-document.head.appendChild(style);
+};
+
+// =============================================
+// Enhanced Modal System
+// =============================================
+class ModalManager {
+    static open(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus first focusable element
+        const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable) {
+            setTimeout(() => focusable.focus(), 100);
+        }
+        
+        // Store last focused element
+        modal.dataset.lastFocus = document.activeElement;
+        
+        // Trap focus within modal
+        this.trapFocus(modal);
+    }
+    
+    static close(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Return focus to last element
+        const lastFocus = document.querySelector(modal.dataset.lastFocus);
+        if (lastFocus) {
+            lastFocus.focus();
+        }
+    }
+    
+    static trapFocus(modal) {
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        modal.addEventListener('keydown', function(e) {
+            if (e.key !== 'Tab') return;
+            
+            if (e.shiftKey) {
+                if (document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                }
+            } else {
+                if (document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        });
+        
+        // Close on escape
+        modal.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                ModalManager.close(modal.id);
+            }
+        });
+    }
+}
+
+// Backward compatibility
+function openModal(modalId) {
+    ModalManager.open(modalId);
+}
+
+function closeModal(modalId) {
+    ModalManager.close(modalId);
+}
+
+// =============================================
+// Keyboard Shortcuts & Accessibility
+// =============================================
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + K: Focus search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+        
+        // Ctrl/Cmd + /: Show keyboard shortcuts
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+            e.preventDefault();
+            showKeyboardShortcuts();
+        }
+        
+        // D: Toggle dark mode
+        if (e.key === 'd' && !isInputFocused()) {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.click();
+            }
+        }
+    });
+}
+
+function isInputFocused() {
+    const activeElement = document.activeElement;
+    return activeElement && (
+        activeElement.tagName === 'INPUT' ||
+        activeElement.tagName === 'TEXTAREA' ||
+        activeElement.isContentEditable
+    );
+}
+
+function showKeyboardShortcuts() {
+    toast.info(`
+        <strong>اختصارات لوحة المفاتيح:</strong><br>
+        Ctrl+K: البحث<br>
+        D: تبديل الوضع الليلي<br>
+        Esc: إغلاق النوافذ المنبثقة
+    `, 'مساعدة', 8000);
+}
+
+// =============================================
+// Enhanced Cart Functions with Loading
+// =============================================
+const CartManager = {
+    async addItem(bookIsbn, quantity = 1) {
+        LoadingOverlay.show();
+        
+        try {
+            const response = await fetch('/customer/add_to_cart.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `book_isbn=${bookIsbn}&quantity=${quantity}`
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                toast.success('تمت إضافة الكتاب إلى السلة');
+                updateCartCount(data.cartCount);
+                
+                // Animate cart icon
+                const cartIcon = document.querySelector('.cart-icon');
+                if (cartIcon) {
+                    cartIcon.style.animation = 'bounce 0.5s ease';
+                    setTimeout(() => {
+                        cartIcon.style.animation = '';
+                    }, 500);
+                }
+            } else {
+                toast.error(data.message || 'فشل في إضافة الكتاب');
+            }
+        } catch (error) {
+            console.error('Cart error:', error);
+            toast.error('حدث خطأ في الاتصال');
+        } finally {
+            LoadingOverlay.hide();
+        }
+    }
+};
+
+// =============================================
+// Smooth Page Transitions
+// =============================================
+function setupPageTransitions() {
+    // Add fade-out effect on page navigation
+    document.querySelectorAll('a:not([target="_blank"])').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Skip for same-page anchors
+            if (this.getAttribute('href').startsWith('#')) return;
+            
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.2s ease';
+            
+            setTimeout(() => {
+                window.location.href = href;
+            }, 200);
+        });
+    });
+    
+    // Fade in on page load
+    window.addEventListener('load', () => {
+        document.body.style.opacity = '1';
+    });
+}
+
+// =============================================
+// Performance Monitoring
+// =============================================
+if ('PerformanceObserver' in window) {
+    // Monitor long tasks
+    try {
+        const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                if (entry.duration > 50) {
+                    console.warn('Long task detected:', entry.duration + 'ms');
+                }
+            }
+        });
+        observer.observe({ entryTypes: ['longtask'] });
+    } catch (e) {
+        // Long task API not supported
+    }
+}
+
+// Remove old animation style (already in CSS)
+const oldStyle = document.querySelector('style');
+if (oldStyle && oldStyle.textContent.includes('slideDown')) {
+    oldStyle.remove();
+}
+
+// Export for use in other scripts
+window.BookstoreApp = {
+    toast,
+    LoadingOverlay,
+    ModalManager,
+    CartManager,
+    ThemeManager
+};
+

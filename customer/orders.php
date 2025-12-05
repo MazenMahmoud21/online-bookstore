@@ -25,13 +25,13 @@ require_once '../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h1>📦 طلباتي</h1>
+    <h1><i class="ph-duotone ph-package"></i> طلباتي</h1>
     <p>عرض جميع طلباتك السابقة</p>
 </div>
 
 <?php if (empty($orders)): ?>
     <div class="empty-state">
-        <div class="empty-state-icon">📦</div>
+        <div class="empty-state-icon"><i class="ph-duotone ph-package"></i></div>
         <h3>لا توجد طلبات</h3>
         <p>لم تقم بأي طلبات بعد</p>
         <a href="/books.php" class="btn btn-primary">تصفح الكتب</a>
