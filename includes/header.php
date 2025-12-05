@@ -15,6 +15,7 @@ $pageTitle = $pageTitle ?? 'Egyptian Online Bookstore';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a4d2e">
     <meta name="color-scheme" content="light dark">
+    <base href="<?php echo rtrim(url(''), '/') . '/'; ?>">
     <title><?php echo htmlspecialchars($pageTitle); ?> | Egyptian Bookstore</title>
     
     <!-- Preconnect for performance -->
@@ -28,7 +29,7 @@ $pageTitle = $pageTitle ?? 'Egyptian Online Bookstore';
     <script src="https://unpkg.com/feather-icons"></script>
     
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Skip to main content for accessibility -->

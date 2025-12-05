@@ -30,7 +30,14 @@ if (!defined('BASE_URL')) {
 if (!function_exists('url')) {
     function url($path = '') {
         $path = ltrim($path, '/');
-        return BASE_URL . ($path ? '/' . $path : '');
+        $base = BASE_URL ?: '';
+        // Ensure we always have a leading slash if base is empty or doesn't have one
+        if (empty($base) || $base[0] !== '/') {
+            $base = '/' . ltrim($base, '/');
+        }
+        // Remove trailing slash from base
+        $base = rtrim($base, '/');
+        return $base . ($path ? '/' . $path : '');
     }
 }
 
