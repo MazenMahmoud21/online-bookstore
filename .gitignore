@@ -1,0 +1,47 @@
+# Backend - .NET
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+backend/**/*.userosscache
+backend/**/*.sln.docstates
+backend/**/*.suo
+
+# Frontend - Node.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.pnp/
+frontend/.pnp.js
+frontend/coverage/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+
+# Package lock files (keep these as they're important)
+!package-lock.json
+!yarn.lock
