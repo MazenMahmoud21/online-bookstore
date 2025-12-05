@@ -12,10 +12,10 @@
                 <div class="footer-section">
                     <h3>روابط سريعة</h3>
                     <ul>
-                        <li><a href="/index.php">الرئيسية</a></li>
-                        <li><a href="/books.php">الكتب</a></li>
-                        <li><a href="/about.php">عن المكتبة</a></li>
-                        <li><a href="/contact.php">اتصل بنا</a></li>
+                        <li><a href="<?php echo url('index.php'); ?>">الرئيسية</a></li>
+                        <li><a href="<?php echo url('books.php'); ?>">الكتب</a></li>
+                        <li><a href="<?php echo url('about.php'); ?>">عن المكتبة</a></li>
+                        <li><a href="<?php echo url('contact.php'); ?>">اتصل بنا</a></li>
                     </ul>
                 </div>
                 
@@ -44,6 +44,6 @@
         </div>
     </footer>
     
-    <script src="/assets/js/main.js"></script>
+    <script src="<?php echo asset('js/main.js'); ?>"></script>
 </body>
 </html>

@@ -33,7 +33,7 @@ $stats = dbQuerySingle(
     <h1>🏠 مرحباً بكم في المكتبة الإلكترونية</h1>
     <p>وجهتكم الأولى للكتب العربية في المملكة العربية السعودية</p>
     
-    <form class="search-box" action="/search.php" method="GET">
+    <form class="search-box" action="<?php echo url('search.php'); ?>" method="GET">
         <input type="text" name="q" placeholder="ابحث عن كتاب بالعنوان، المؤلف، أو ISBN..." required>
         <button type="submit" class="btn btn-secondary">🔍 بحث</button>
     </form>
@@ -70,11 +70,11 @@ $stats = dbQuerySingle(
     </div>
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <?php foreach ($categories as $cat): ?>
-            <a href="/books.php?category=<?php echo urlencode($cat['category']); ?>" class="btn btn-secondary">
+            <a href="<?php echo url('books.php?category=' . urlencode($cat['category'])); ?>" class="btn btn-secondary">
                 <?php echo htmlspecialchars($cat['category']); ?>
             </a>
         <?php endforeach; ?>
-        <a href="/books.php" class="btn btn-primary">عرض الكل</a>
+        <a href="<?php echo url('books.php'); ?>" class="btn btn-primary">عرض الكل</a>
     </div>
 </section>
 
@@ -114,7 +114,7 @@ $stats = dbQuerySingle(
                         </div>
                     </div>
                     <div class="book-card-actions">
-                        <a href="/book.php?isbn=<?php echo urlencode($book['isbn']); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
+                        <a href="<?php echo url('book.php?isbn=' . urlencode($book['isbn'])); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
                         <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
                             <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
                                 🛒 أضف للسلة
@@ -126,7 +126,7 @@ $stats = dbQuerySingle(
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-            <a href="/books.php" class="btn btn-primary btn-lg">عرض جميع الكتب</a>
+            <a href="<?php echo url('books.php'); ?>" class="btn btn-primary btn-lg">عرض جميع الكتب</a>
         </div>
     <?php endif; ?>
 </section>

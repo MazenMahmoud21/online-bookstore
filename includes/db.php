@@ -10,28 +10,47 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
+// Check which database extension is available
+$use_mysqli = extension_loaded('mysqli');
+$use_pdo = extension_loaded('pdo_mysql');
+
 /**
- * Get PDO Database Connection
- * @return PDO
+ * Get Database Connection
+ * @return mysqli|PDO
  */
 function getDBConnection() {
-    static $pdo = null;
+    global $use_mysqli, $use_pdo;
+    static $conn = null;
     
-    if ($pdo === null) {
-        try {
-            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ];
-            $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-        } catch (PDOException $e) {
-            die("خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage());
+    if ($conn === null) {
+        if ($use_mysqli) {
+            // Use MySQLi
+            $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            
+            if ($conn->connect_error) {
+                die("خطأ في الاتصال بقاعدة البيانات: " . $conn->connect_error);
+            }
+            
+            $conn->set_charset(DB_CHARSET);
+        } elseif ($use_pdo) {
+            // Use PDO
+            try {
+                $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+                $options = [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ];
+                $conn = new PDO($dsn, DB_USER, DB_PASS, $options);
+            } catch (PDOException $e) {
+                die("خطأ في الاتصال بقاعدة البيانات: " . $e->getMessage());
+            }
+        } else {
+            die("خطأ: لم يتم العثور على درايفر MySQL. يرجى تثبيت mysqli أو PDO MySQL.");
         }
     }
     
-    return $pdo;
+    return $conn;
 }
 
 /**
@@ -41,10 +60,32 @@ function getDBConnection() {
  * @return array
  */
 function dbQuery($sql, $params = []) {
-    $pdo = getDBConnection();
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchAll();
+    global $use_mysqli;
+    $conn = getDBConnection();
+    
+    if ($use_mysqli) {
+        // MySQLi implementation
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            die("خطأ في تحضير الاستعلام: " . $conn->error);
+        }
+        
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $data;
+    } else {
+        // PDO implementation
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
 }
 
 /**
@@ -54,10 +95,32 @@ function dbQuery($sql, $params = []) {
  * @return array|null
  */
 function dbQuerySingle($sql, $params = []) {
-    $pdo = getDBConnection();
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetch();
+    global $use_mysqli;
+    $conn = getDBConnection();
+    
+    if ($use_mysqli) {
+        // MySQLi implementation
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            die("خطأ في تحضير الاستعلام: " . $conn->error);
+        }
+        
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        return $data;
+    } else {
+        // PDO implementation
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch();
+    }
 }
 
 /**
@@ -67,10 +130,31 @@ function dbQuerySingle($sql, $params = []) {
  * @return int Number of affected rows
  */
 function dbExecute($sql, $params = []) {
-    $pdo = getDBConnection();
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->rowCount();
+    global $use_mysqli;
+    $conn = getDBConnection();
+    
+    if ($use_mysqli) {
+        // MySQLi implementation
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            die("خطأ في تحضير الاستعلام: " . $conn->error);
+        }
+        
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params));
+            $stmt->bind_param($types, ...$params);
+        }
+        
+        $stmt->execute();
+        $affected = $stmt->affected_rows;
+        $stmt->close();
+        return $affected;
+    } else {
+        // PDO implementation
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->rowCount();
+    }
 }
 
 /**
@@ -78,7 +162,14 @@ function dbExecute($sql, $params = []) {
  * @return string
  */
 function dbLastInsertId() {
-    return getDBConnection()->lastInsertId();
+    global $use_mysqli;
+    $conn = getDBConnection();
+    
+    if ($use_mysqli) {
+        return $conn->insert_id;
+    } else {
+        return $conn->lastInsertId();
+    }
 }
 
 /**

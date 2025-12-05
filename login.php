@@ -8,7 +8,7 @@ require_once 'includes/auth.php';
 
 // Redirect if already logged in
 if (isLoggedIn()) {
-    header('Location: /index.php');
+    header('Location: ' . url('index.php'));
     exit;
 }
 
@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Redirect based on role
                 if ($customer['is_admin']) {
-                    header('Location: /admin/dashboard.php');
+                    header('Location: ' . url('admin/dashboard.php'));
                 } else {
-                    header('Location: /index.php');
+                    header('Location: ' . url('index.php'));
                 }
                 exit;
             } else {
@@ -77,7 +77,7 @@ require_once 'includes/header.php';
         </form>
         
         <div class="auth-footer">
-            <p>ليس لديك حساب؟ <a href="/signup.php">إنشاء حساب جديد</a></p>
+            <p>ليس لديك حساب؟ <a href="<?php echo url('signup.php'); ?>">إنشاء حساب جديد</a></p>
         </div>
     </div>
     
