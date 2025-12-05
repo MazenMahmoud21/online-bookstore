@@ -1,5 +1,4 @@
 -- =============================================
--- نظام معالجة طلبات المكتبة الإلكترونية
 -- Online Bookstore Order Processing System
 -- Database Schema for XAMPP/MySQL
 -- =============================================
@@ -9,7 +8,7 @@ CREATE DATABASE IF NOT EXISTS online_bookstore CHARACTER SET utf8mb4 COLLATE utf
 USE online_bookstore;
 
 -- =============================================
--- الناشرين - Publishers Table
+-- Publishers Table
 -- =============================================
 CREATE TABLE publishers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,7 +19,7 @@ CREATE TABLE publishers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- الكتب - Books Table
+-- Books Table
 -- =============================================
 CREATE TABLE books (
     isbn VARCHAR(20) PRIMARY KEY,
@@ -39,7 +38,7 @@ CREATE TABLE books (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- طلبات من الناشرين - Orders from Publishers Table
+-- Orders from Publishers Table
 -- =============================================
 CREATE TABLE orders_from_publishers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +50,7 @@ CREATE TABLE orders_from_publishers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- العملاء - Customers Table
+-- Customers Table
 -- =============================================
 CREATE TABLE customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -67,7 +66,7 @@ CREATE TABLE customers (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- سلة التسوق - Shopping Cart Table
+-- Shopping Cart Table
 -- =============================================
 CREATE TABLE shopping_cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -77,7 +76,7 @@ CREATE TABLE shopping_cart (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- عناصر السلة - Cart Items Table
+-- Cart Items Table
 -- =============================================
 CREATE TABLE cart_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -90,7 +89,7 @@ CREATE TABLE cart_items (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- المبيعات - Sales Table
+-- Sales Table
 -- =============================================
 CREATE TABLE sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,7 +100,7 @@ CREATE TABLE sales (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- عناصر المبيعات - Sales Items Table
+-- Sales Items Table
 -- =============================================
 CREATE TABLE sales_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,7 +124,7 @@ FOR EACH ROW
 BEGIN
     IF NEW.stock < 0 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'لا يمكن أن يكون المخزون سالباً';
+        SET MESSAGE_TEXT = 'Stock cannot be negative';
     END IF;
 END //
 DELIMITER ;
