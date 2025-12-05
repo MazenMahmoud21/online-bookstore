@@ -88,11 +88,11 @@ require_once 'includes/header.php';
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="8"></line></svg>
             Demo Login Credentials:
         </strong>
-        <p style="margin: 10px 0 5px;">
+        <p style="margin: 0;">
             <strong>Admin:</strong> admin / password
         </p>
         <p style="margin: 0;">
-            <strong>Customer:</strong> mohammed / password
+            <strong>Customer:</strong> mahmoud / password
         </p>
     </div>
 </div>

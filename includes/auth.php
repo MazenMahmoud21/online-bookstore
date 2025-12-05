@@ -109,8 +109,13 @@ function loginUser($customer) {
 function logoutUser() {
     // Clear cart on logout
     if (isset($_SESSION['customer_id'])) {
-        require_once __DIR__ . '/db.php';
-        dbExecute("DELETE FROM shopping_cart WHERE customer_id = ?", [$_SESSION['customer_id']]);
+        try {
+            require_once __DIR__ . '/db.php';
+            dbExecute("DELETE FROM shopping_cart WHERE customer_id = ?", [$_SESSION['customer_id']]);
+        } catch (Exception $e) {
+            // Continue logout even if cart clearing fails
+            error_log("Error clearing cart on logout: " . $e->getMessage());
+        }
     }
     
     // Clear session data
