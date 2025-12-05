@@ -14,7 +14,7 @@ if (isLoggedIn()) {
     exit;
 }
 
-$pageTitle = 'إعادة تعيين كلمة المرور';
+$pageTitle = 'Reset Password';
 $message = '';
 $messageType = '';
 $validToken = false;
@@ -60,7 +60,7 @@ if (!empty($token)) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validToken) {
     // Validate CSRF token
     if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
-        $message = 'خطأ في التحقق. يرجى المحاولة مرة أخرى.';
+        $message = 'Verification error. Please try again.';
         $messageType = 'error';
     } else {
         $password = $_POST['password'] ?? '';
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validToken) {
             $message = implode('<br>', $passwordValidation['errors']);
             $messageType = 'error';
         } elseif ($password !== $confirmPassword) {
-            $message = 'كلمتا المرور غير متطابقتين.';
+            $message = 'Passwords do not match.';
             $messageType = 'error';
         } else {
             // Update password
@@ -98,12 +98,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validToken) {
                     unset($_SESSION['password_reset_' . $resetEmail]);
                 }
                 
-                $message = 'تم تغيير كلمة المرور بنجاح! يمكنك الآن تسجيل الدخول.';
+                $message = 'Your password has been changed successfully! You can now log in.';
                 $messageType = 'success';
                 $validToken = false; // Prevent form from showing again
                 
             } catch (Exception $e) {
-                $message = 'حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى.';
+                $message = 'An error occurred while changing your password. Please try again.';
                 $messageType = 'error';
                 error_log("Password update error: " . $e->getMessage());
             }
@@ -114,80 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validToken) {
 require_once 'includes/header.php';
 ?>
 
-<main class="reset-password-page">
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <span class="auth-icon">🔑</span>
-                <h1>إعادة تعيين كلمة المرور</h1>
-                <?php if ($validToken): ?>
-                    <p>أدخل كلمة المرور الجديدة</p>
-                <?php else: ?>
-                    <p>إنشاء كلمة مرور جديدة لحسابك</p>
-                <?php endif; ?>
-            </div>
-            
-            <?php if ($message): ?>
-                <div class="alert alert-<?php echo $messageType; ?>">
-                    <?php echo $message; ?>
-                </div>
-            <?php endif; ?>
-            
-            <?php if ($validToken): ?>
-            <form method="POST" action="" class="auth-form">
-                <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
-                <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
-                
-                <div class="form-group">
-                    <label for="password">كلمة المرور الجديدة</label>
-                    <input type="password" id="password" name="password" required 
-                           minlength="8" placeholder="••••••••">
-                    <small class="hint">يجب أن تحتوي على 8 أحرف على الأقل، حرف كبير، رقم، ورمز خاص</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirm_password">تأكيد كلمة المرور</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required 
-                           minlength="8" placeholder="••••••••">
-                </div>
-                
-                <div class="password-strength" id="passwordStrength">
-                    <div class="strength-bar">
-                        <div class="strength-fill" id="strengthFill"></div>
-                    </div>
-                    <span class="strength-text" id="strengthText">قوة كلمة المرور</span>
-                </div>
-                
-                <button type="submit" class="btn btn-submit">
-                    حفظ كلمة المرور الجديدة
-                </button>
-            </form>
-            
-            <?php elseif (empty($token)): ?>
-                <div class="invalid-token">
-                    <span class="error-icon">⚠️</span>
-                    <h2>رابط غير صالح</h2>
-                    <p>يرجى استخدام الرابط المرسل إلى بريدك الإلكتروني.</p>
-                    <a href="<?php echo url('forgot_password.php'); ?>" class="btn btn-link">
-                        طلب رابط جديد
-                    </a>
-                </div>
-            <?php else: ?>
-                <div class="invalid-token">
-                    <span class="error-icon">⏰</span>
-                    <h2>انتهت صلاحية الرابط</h2>
-                    <p>رابط إعادة تعيين كلمة المرور غير صالح أو انتهت صلاحيته.</p>
-                    <a href="<?php echo url('forgot_password.php'); ?>" class="btn btn-link">
-                        طلب رابط جديد
-                    </a>
-                </div>
-            <?php endif; ?>
-            
-            <div class="auth-footer">
-                <p>تذكرت كلمة المرور؟ <a href="<?php echo url('login.php'); ?>">تسجيل الدخول</a></p>
-            </div>
-        </div>
-    </div>
 </main>
 
 <style>
@@ -414,19 +340,19 @@ document.addEventListener('DOMContentLoaded', function() {
             
             switch (true) {
                 case (strength <= 2):
-                    text = 'ضعيفة';
+                    text = 'Weak';
                     color = '#e74c3c';
                     break;
                 case (strength <= 4):
-                    text = 'متوسطة';
+                    text = 'Medium';
                     color = '#f39c12';
                     break;
                 case (strength <= 5):
-                    text = 'جيدة';
+                    text = 'Good';
                     color = '#3498db';
                     break;
                 default:
-                    text = 'قوية';
+                    text = 'Strong';
                     color = '#27ae60';
             }
             

@@ -85,14 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ]
                     );
                     
-                    $success = 'تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.';
+                    $success = 'Account created successfully! You can now log in.';
                     $formData = [
                         'username' => '',
                         'email' => '',
                         'first_name' => '',
-                        'last_name' => '',
-                        'phone' => '',
-                        'address' => ''
+                        'last_name' => ''
                     ];
                 } catch (PDOException $e) {
                     $error = 'حدث خطأ أثناء إنشاء الحساب. الرجاء المحاولة مرة أخرى.';
@@ -103,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$pageTitle = 'إنشاء حساب جديد';
+$pageTitle = 'Sign Up';
 require_once 'includes/header.php';
 ?>
 
 <div class="auth-container">
     <div class="auth-card">
-        <h2><i class="ph-duotone ph-user-plus"></i> إنشاء حساب جديد</h2>
+        <h2><i data-feather="user-plus"></i> Sign Up</h2>
         
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -118,7 +116,7 @@ require_once 'includes/header.php';
         <?php if ($success): ?>
             <div class="alert alert-success">
                 <?php echo htmlspecialchars($success); ?>
-                <br><a href="/login.php">تسجيل الدخول الآن</a>
+                <br><a href="/login.php">Log in now</a>
             </div>
         <?php endif; ?>
         
@@ -126,64 +124,44 @@ require_once 'includes/header.php';
             <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <div class="form-group">
-                    <label for="first_name">الاسم الأول *</label>
+                    <label for="first_name">First Name *</label>
                     <input type="text" id="first_name" name="first_name" class="form-control" 
-                           placeholder="أدخل الاسم الأول" required
+                           placeholder="Enter your first name" required
                            value="<?php echo htmlspecialchars($formData['first_name']); ?>">
                 </div>
-                
                 <div class="form-group">
-                    <label for="last_name">اسم العائلة *</label>
+                    <label for="last_name">Last Name *</label>
                     <input type="text" id="last_name" name="last_name" class="form-control" 
-                           placeholder="أدخل اسم العائلة" required
+                           placeholder="Enter your last name" required
                            value="<?php echo htmlspecialchars($formData['last_name']); ?>">
                 </div>
             </div>
-            
             <div class="form-group">
-                <label for="username">اسم المستخدم *</label>
+                <label for="username">Username *</label>
                 <input type="text" id="username" name="username" class="form-control" 
-                       placeholder="أدخل اسم المستخدم (3 أحرف على الأقل)" required
+                       placeholder="Enter your username (min 3 characters)" required
                        value="<?php echo htmlspecialchars($formData['username']); ?>">
             </div>
-            
             <div class="form-group">
-                <label for="email">البريد الإلكتروني *</label>
+                <label for="email">Email *</label>
                 <input type="email" id="email" name="email" class="form-control" 
                        placeholder="example@email.com" required
                        value="<?php echo htmlspecialchars($formData['email']); ?>">
             </div>
-            
             <div class="form-group">
-                <label for="phone">رقم الجوال</label>
-                <input type="tel" id="phone" name="phone" class="form-control" 
-                       placeholder="05XXXXXXXX"
-                       value="<?php echo htmlspecialchars($formData['phone']); ?>">
-            </div>
-            
-            <div class="form-group">
-                <label for="address">العنوان</label>
-                <textarea id="address" name="address" class="form-control" 
-                          placeholder="المدينة، الحي، الشارع"><?php echo htmlspecialchars($formData['address']); ?></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">كلمة المرور *</label>
+                <label for="password">Password *</label>
                 <input type="password" id="password" name="password" class="form-control" 
-                       placeholder="6 أحرف على الأقل" required>
+                       placeholder="At least 6 characters" required>
             </div>
-            
             <div class="form-group">
-                <label for="password_confirm">تأكيد كلمة المرور *</label>
+                <label for="password_confirm">Confirm Password *</label>
                 <input type="password" id="password_confirm" name="password_confirm" class="form-control" 
-                       placeholder="أعد إدخال كلمة المرور" required>
+                       placeholder="Re-enter your password" required>
             </div>
-            
-            <button type="submit" class="btn btn-primary btn-block btn-lg">إنشاء الحساب</button>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Sign Up</button>
         </form>
-        
         <div class="auth-footer">
-            <p>لديك حساب بالفعل؟ <a href="/login.php">تسجيل الدخول</a></p>
+            <p>Already have an account? <a href="/login.php">Login</a></p>
         </div>
     </div>
 </div>

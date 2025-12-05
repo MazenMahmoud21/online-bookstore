@@ -3,7 +3,7 @@
  * Search Results Page - صفحة نتائج البحث
  */
 
-$pageTitle = 'نتائج البحث';
+$pageTitle = 'Search Results';
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/header.php';
@@ -84,9 +84,9 @@ if ($query) {
 ?>
 
 <div class="page-header">
-    <h1><i class="ph-duotone ph-magnifying-glass"></i> نتائج البحث</h1>
+    <h1><i data-feather="search"></i> Search Results</h1>
     <?php if ($query): ?>
-        <p>نتائج البحث عن: "<?php echo htmlspecialchars($query); ?>"</p>
+        <p>Results for: "<?php echo htmlspecialchars($query); ?>"</p>
     <?php endif; ?>
 </div>
 
@@ -95,74 +95,76 @@ if ($query) {
     <div class="card-body">
         <form method="GET" action="" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
             <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
-                <label for="q">البحث</label>
+                <label for="q">Search</label>
                 <input type="text" name="q" id="q" class="form-control" 
-                       placeholder="أدخل كلمة البحث..."
+                       placeholder="Enter your search..."
                        value="<?php echo htmlspecialchars($query); ?>" required>
             </div>
             
             <div class="form-group" style="margin-bottom: 0; min-width: 150px;">
-                <label for="by">البحث في</label>
+                <label for="by">Search In</label>
                 <select name="by" id="by" class="form-control">
-                    <option value="all" <?php echo $searchBy === 'all' ? 'selected' : ''; ?>>الكل</option>
+                    <option value="all" <?php echo $searchBy === 'all' ? 'selected' : ''; ?>>All</option>
                     <option value="isbn" <?php echo $searchBy === 'isbn' ? 'selected' : ''; ?>>ISBN</option>
-                    <option value="title" <?php echo $searchBy === 'title' ? 'selected' : ''; ?>>العنوان</option>
-                    <option value="author" <?php echo $searchBy === 'author' ? 'selected' : ''; ?>>المؤلف</option>
-                    <option value="publisher" <?php echo $searchBy === 'publisher' ? 'selected' : ''; ?>>دار النشر</option>
-                    <option value="category" <?php echo $searchBy === 'category' ? 'selected' : ''; ?>>التصنيف</option>
+                    <option value="title" <?php echo $searchBy === 'title' ? 'selected' : ''; ?>>Title</option>
+                    <option value="author" <?php echo $searchBy === 'author' ? 'selected' : ''; ?>>Author</option>
+                    <option value="publisher" <?php echo $searchBy === 'publisher' ? 'selected' : ''; ?>>Publisher</option>
+                    <option value="category" <?php echo $searchBy === 'category' ? 'selected' : ''; ?>>Category</option>
                 </select>
             </div>
             
-            <button type="submit" class="btn btn-primary"><i class="ph ph-magnifying-glass"></i> بحث</button>
+            <button type="submit" class="btn btn-primary"><i data-feather="search"></i> Search</button>
         </form>
     </div>
 </div>
 
 <!-- Results -->
+
 <?php if (!$query): ?>
     <div class="empty-state">
-        <div class="empty-state-icon"><i class="ph-duotone ph-magnifying-glass"></i></div>
-        <h3>ابحث عن كتاب</h3>
-        <p>أدخل كلمة البحث للعثور على الكتب</p>
+        <div class="empty-state-icon"><i data-feather="search"></i></div>
+        <h3>Search for a Book</h3>
+        <p>Enter a search term to find books</p>
     </div>
 <?php elseif (empty($books)): ?>
     <div class="empty-state">
-        <div class="empty-state-icon">😕</div>
-        <h3>لا توجد نتائج</h3>
-        <p>لم نجد أي كتب تطابق بحثك عن "<?php echo htmlspecialchars($query); ?>"</p>
-        <a href="/books.php" class="btn btn-primary">تصفح جميع الكتب</a>
+        <div class="empty-state-icon"><i data-feather="alert-circle"></i></div>
+        <h3>No Results Found</h3>
+        <p>We couldn't find any books matching "<?php echo htmlspecialchars($query); ?>"</p>
+        <a href="/books.php" class="btn btn-primary">Browse All Books</a>
     </div>
 <?php else: ?>
     <p style="margin-bottom: 20px; color: var(--text-light);">
-        تم العثور على <?php echo count($books); ?> نتيجة
+        Found <?php echo count($books); ?> results
     </p>
     
     <div class="books-grid">
         <?php foreach ($books as $book): ?>
             <div class="book-card">
-                <div class="book-card-image"><i class="ph-duotone ph-book"></i></div>
+                <div class="book-card-image"><svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="280" fill="#f0f0f0" rx="4"/><rect x="20" y="30" width="160" height="40" fill="#1a4d2e" opacity="0.1" rx="3"/><rect x="20" y="90" width="120" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/><rect x="20" y="110" width="140" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/><rect x="20" y="130" width="100" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/></svg></div>
                 <div class="book-card-content">
                     <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
                     <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>
                     <p class="book-card-author"><?php echo htmlspecialchars($book['authors']); ?></p>
-                    <div class="book-card-price"><?php echo number_format($book['price'], 2); ?> ريال</div>
+                    <div class="book-card-price">EGP <?php echo number_format($book['price'], 2); ?></div>
                     <div class="book-card-stock <?php echo $book['stock'] <= 0 ? 'out' : ($book['stock'] < $book['threshold'] ? 'low' : ''); ?>">
+                        <i data-feather="<?php echo $book['stock'] > 0 ? 'check-circle' : 'x-circle'; ?>"></i>
                         <?php 
                         if ($book['stock'] <= 0) {
-                            echo 'غير متوفر';
+                            echo 'Out of Stock';
                         } elseif ($book['stock'] < $book['threshold']) {
-                            echo 'كمية محدودة';
+                            echo 'Limited Stock';
                         } else {
-                            echo 'متوفر';
+                            echo 'In Stock';
                         }
                         ?>
                     </div>
                 </div>
                 <div class="book-card-actions">
-                    <a href="/book.php?isbn=<?php echo urlencode($book['isbn']); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
+                    <a href="/book.php?isbn=<?php echo urlencode($book['isbn']); ?>" class="btn btn-secondary btn-sm" style="flex: 1;"><i data-feather="eye"></i> View Details</a>
                     <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
                         <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
-                            <i class="ph ph-shopping-cart"></i> أضف
+                            <i data-feather="shopping-cart"></i> Add to Cart
                         </button>
                     <?php endif; ?>
                 </div>

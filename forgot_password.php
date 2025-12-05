@@ -15,7 +15,7 @@ if (isLoggedIn()) {
     exit;
 }
 
-$pageTitle = 'نسيت كلمة المرور';
+$pageTitle = 'Forgot Password';
 $message = '';
 $messageType = '';
 
@@ -23,17 +23,16 @@ $messageType = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate CSRF token
     if (!validateCSRFToken($_POST['csrf_token'] ?? '')) {
-        $message = 'خطأ في التحقق. يرجى المحاولة مرة أخرى.';
+        $message = 'Verification error. Please try again.';
         $messageType = 'error';
     } else {
         $email = sanitizeInput($_POST['email'] ?? '');
-        
         // Rate limiting
         if (!checkRateLimit('password_reset', $email, 3, 3600)) {
-            $message = 'تم تجاوز عدد المحاولات المسموح بها. يرجى الانتظار ساعة ثم المحاولة مرة أخرى.';
+            $message = 'Too many attempts. Please wait an hour and try again.';
             $messageType = 'error';
         } elseif (empty($email) || !validateEmailFormat($email)) {
-            $message = 'يرجى إدخال بريد إلكتروني صحيح.';
+            $message = 'Please enter a valid email address.';
             $messageType = 'error';
         } else {
             // Check if email exists
@@ -41,9 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 "SELECT customer_id, first_name, email FROM customers WHERE email = ?",
                 [$email]
             );
-            
             // Always show success message to prevent email enumeration
-            $message = 'إذا كان البريد الإلكتروني مسجلاً لدينا، سيتم إرسال رابط استعادة كلمة المرور خلال دقائق.';
+            $message = 'If the email is registered, a password reset link will be sent within minutes.';
             $messageType = 'success';
             
             if ($customer) {
@@ -94,43 +92,28 @@ require_once 'includes/header.php';
 
 <main class="forgot-password-page">
     <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <span class="auth-icon">🔐</span>
-                <h1>نسيت كلمة المرور</h1>
-                <p>أدخل بريدك الإلكتروني وسنرسل لك رابط استعادة كلمة المرور</p>
-            </div>
-            
-            <?php if ($message): ?>
-                <div class="alert alert-<?php echo $messageType; ?>">
-                    <?php echo $message; ?>
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2><i data-feather="key"></i> Forgot Password</h2>
+                <p>Enter your email address to reset your password.</p>
+                <?php if ($message): ?>
+                    <div class="alert alert-<?php echo $messageType; ?>"><?php echo htmlspecialchars($message); ?></div>
+                <?php endif; ?>
+                <form method="POST" action="" id="forgotPasswordForm" data-validate>
+                    <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" 
+                               placeholder="Enter your email address" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Reset Password</button>
+                </form>
+                <div class="auth-footer">
+                    <p><a href="<?php echo url('login.php'); ?>">Back to Login</a></p>
                 </div>
-            <?php endif; ?>
-            
-            <?php if ($messageType !== 'success'): ?>
-            <form method="POST" action="" class="auth-form">
-                <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
-                
-                <div class="form-group">
-                    <label for="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" required 
-                           placeholder="example@email.com"
-                           value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
-                </div>
-                
-                <button type="submit" class="btn btn-submit">
-                    إرسال رابط الاستعادة
-                </button>
-            </form>
-            <?php endif; ?>
-            
-            <div class="auth-footer">
-                <p>تذكرت كلمة المرور؟ <a href="<?php echo url('login.php'); ?>">تسجيل الدخول</a></p>
-                <p>ليس لديك حساب؟ <a href="<?php echo url('signup.php'); ?>">إنشاء حساب جديد</a></p>
             </div>
         </div>
-    </div>
-</main>
+// ...existing code...
 
 <style>
 .forgot-password-page {

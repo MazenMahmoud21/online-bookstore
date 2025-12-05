@@ -82,15 +82,15 @@ require_once 'includes/header.php';
 ?>
 
 <div class="breadcrumb">
-    <a href="<?php echo url('index.php'); ?>">الرئيسية</a> &raquo;
-    <a href="<?php echo url('books.php'); ?>">الكتب</a> &raquo;
+    <a href="<?php echo url('index.php'); ?>">Home</a> &raquo;
+    <a href="<?php echo url('books.php'); ?>">Books</a> &raquo;
     <a href="<?php echo url('books.php?category=' . urlencode($book['category'])); ?>"><?php echo htmlspecialchars($book['category']); ?></a> &raquo;
     <span><?php echo htmlspecialchars($book['title']); ?></span>
 </div>
 
 <div class="book-details">
     <div class="book-image-large">
-        <i class="ph-duotone ph-book"></i>
+        <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="280" fill="#f0f0f0" rx="4"/><rect x="20" y="30" width="160" height="40" fill="#1a4d2e" opacity="0.1" rx="3"/><rect x="20" y="90" width="120" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/><rect x="20" y="110" width="140" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/><rect x="20" y="130" width="100" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/></svg>
     </div>
     
     <div class="book-info">
@@ -104,39 +104,39 @@ require_once 'includes/header.php';
             <?php
             $rating = round($reviewStats['average']);
             for ($i = 1; $i <= 5; $i++) {
-                echo $i <= $rating ? '⭐' : '☆';
+                echo $i <= $rating ? '<i data-feather="star"></i>' : '<i data-feather="star"></i>';
             }
             ?>
-            <span class="rating-text"><?php echo $reviewStats['average']; ?>/5 (<?php echo $reviewStats['count']; ?> تقييم)</span>
+            <span class="rating-text"><?php echo $reviewStats['average']; ?>/5 (<?php echo $reviewStats['count']; ?> reviews)</span>
         </div>
         <?php endif; ?>
         
         <div class="book-meta">
-            <p><strong>المؤلف:</strong> <?php echo htmlspecialchars($book['authors']); ?></p>
+            <p><strong>Author:</strong> <?php echo htmlspecialchars($book['authors']); ?></p>
             <?php if ($book['publisher_name']): ?>
-                <p><strong>دار النشر:</strong> <?php echo htmlspecialchars($book['publisher_name']); ?></p>
+                <p><strong>Publisher:</strong> <?php echo htmlspecialchars($book['publisher_name']); ?></p>
             <?php endif; ?>
-            <p><strong>سنة النشر:</strong> <?php echo $book['year']; ?></p>
+            <p><strong>Year:</strong> <?php echo $book['year']; ?></p>
             <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book['isbn']); ?></p>
         </div>
         
-        <div class="book-price-large"><?php echo number_format($book['price'], 2); ?> ريال سعودي</div>
+        <div class="book-price-large">EGP <?php echo number_format($book['price'], 2); ?></div>
         
         <div class="book-card-stock <?php echo $book['stock'] <= 0 ? 'out' : ($book['stock'] < $book['threshold'] ? 'low' : ''); ?>" style="font-size: 1.1rem; margin-bottom: 20px;">
             <?php 
             if ($book['stock'] <= 0) {
-                echo '<i class="ph ph-x-circle"></i> غير متوفر حالياً';
+                echo '<i data-feather="x-circle"></i> Out of Stock';
             } elseif ($book['stock'] < $book['threshold']) {
-                echo '<i class="ph ph-warning-circle"></i> كمية محدودة (' . $book['stock'] . ' متبقية)';
+                echo '<i data-feather="alert-triangle"></i> Limited Stock (' . $book['stock'] . ' left)';
             } else {
-                echo '<i class="ph ph-check-circle"></i> متوفر في المخزون';
+                echo '<i data-feather="check-circle"></i> In Stock';
             }
             ?>
         </div>
         
         <?php if ($book['description']): ?>
             <div class="book-description">
-                <h3>عن الكتاب</h3>
+                <h3>About this Book</h3>
                 <p><?php echo nl2br(htmlspecialchars($book['description'])); ?></p>
             </div>
         <?php endif; ?>
@@ -144,59 +144,59 @@ require_once 'includes/header.php';
         <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
             <form id="addToCartForm" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label for="quantity">الكمية:</label>
+                    <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" name="quantity" value="1" min="1" 
                            max="<?php echo $book['stock']; ?>" class="form-control" style="width: 80px;">
                 </div>
                 <button type="button" onclick="addToCart('<?php echo $book['isbn']; ?>', document.getElementById('quantity').value)" 
                         class="btn btn-primary btn-lg">
-                    <i class="ph ph-shopping-cart"></i> أضف إلى السلة
+                    <i data-feather="shopping-cart"></i> Add to Cart
                 </button>
                 <button type="button" onclick="toggleWishlist('<?php echo $book['isbn']; ?>')" 
                         class="btn btn-wishlist <?php echo $inWishlist ? 'active' : ''; ?>" id="wishlistBtn">
-                    <?php echo $inWishlist ? '❤️ في المفضلة' : '🤍 أضف للمفضلة'; ?>
+                    <?php echo $inWishlist ? '<i data-feather="heart"></i> In Wishlist' : '<i data-feather="heart"></i> Add to Wishlist'; ?>
                 </button>
             </form>
         <?php elseif (isLoggedIn() && !isAdmin()): ?>
             <div class="action-buttons">
                 <button type="button" onclick="toggleWishlist('<?php echo $book['isbn']; ?>')" 
                         class="btn btn-wishlist <?php echo $inWishlist ? 'active' : ''; ?>" id="wishlistBtn">
-                    <?php echo $inWishlist ? '❤️ في المفضلة' : '🤍 أضف للمفضلة'; ?>
+                    <?php echo $inWishlist ? '<i data-feather="heart"></i> In Wishlist' : '<i data-feather="heart"></i> Add to Wishlist'; ?>
                 </button>
             </div>
         <?php elseif (!isLoggedIn()): ?>
             <div class="alert alert-info">
-                <a href="<?php echo url('login.php'); ?>">سجل الدخول</a> لإضافة الكتاب إلى السلة
+                <a href="<?php echo url('login.php'); ?>">Login</a> to add this book to your cart
             </div>
         <?php elseif ($book['stock'] <= 0): ?>
             <div class="alert alert-warning">
-                هذا الكتاب غير متوفر حالياً. يرجى المحاولة لاحقاً.
+                This book is currently out of stock. Please try again later.
             </div>
         <?php endif; ?>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);">
-            <a href="<?php echo url('books.php'); ?>" class="btn btn-secondary">← العودة إلى الكتب</a>
+            <a href="<?php echo url('books.php'); ?>" class="btn btn-secondary">&larr; Back to Books</a>
         </div>
     </div>
 </div>
 
 <!-- Reviews Section -->
 <div class="reviews-section">
-    <h2>⭐ التقييمات والمراجعات</h2>
+    <h2><i data-feather="star"></i> Ratings & Reviews</h2>
     
     <?php if (isLoggedIn() && !isAdmin()): ?>
         <!-- Review Form -->
         <div class="review-form-container">
-            <h3><?php echo $userReview ? 'تعديل تقييمك' : 'أضف تقييمك'; ?></h3>
+            <h3><?php echo $userReview ? 'Edit Your Review' : 'Add Your Review'; ?></h3>
             <form id="reviewForm" class="review-form">
                 <input type="hidden" name="isbn" value="<?php echo htmlspecialchars($isbn); ?>">
                 
                 <div class="rating-input">
-                    <label>تقييمك:</label>
+                    <label>Your Rating:</label>
                     <div class="star-rating" id="starRating">
                         <?php for ($i = 1; $i <= 5; $i++): ?>
                             <span class="star <?php echo ($userReview && $i <= $userReview['rating']) ? 'active' : ''; ?>" data-rating="<?php echo $i; ?>">
-                                <?php echo ($userReview && $i <= $userReview['rating']) ? '⭐' : '☆'; ?>
+                                <i data-feather="star"></i>
                             </span>
                         <?php endfor; ?>
                     </div>
@@ -204,21 +204,21 @@ require_once 'includes/header.php';
                 </div>
                 
                 <div class="form-group">
-                    <label for="reviewText">رأيك في الكتاب (اختياري):</label>
-                    <textarea id="reviewText" name="review_text" rows="4" placeholder="شاركنا رأيك في هذا الكتاب..."><?php echo htmlspecialchars($userReview['review_text'] ?? ''); ?></textarea>
+                    <label for="reviewText">Your Review (optional):</label>
+                    <textarea id="reviewText" name="review_text" rows="4" placeholder="Share your thoughts about this book..."><?php echo htmlspecialchars($userReview['review_text'] ?? ''); ?></textarea>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">
-                    <?php echo $userReview ? 'تحديث التقييم' : 'إرسال التقييم'; ?>
+                    <?php echo $userReview ? 'Update Review' : 'Submit Review'; ?>
                 </button>
                 
                 <?php if ($userReview): ?>
                     <span class="review-status">
                         <?php
                         switch ($userReview['status']) {
-                            case 'pending': echo '⏳ قيد المراجعة'; break;
-                            case 'approved': echo '✅ تم النشر'; break;
-                            case 'rejected': echo '❌ تم الرفض'; break;
+                            case 'pending': echo 'Pending Review'; break;
+                            case 'approved': echo 'Published'; break;
+                            case 'rejected': echo 'Rejected'; break;
                         }
                         ?>
                     </span>
@@ -228,7 +228,7 @@ require_once 'includes/header.php';
         </div>
     <?php elseif (!isLoggedIn()): ?>
         <div class="alert alert-info">
-            <a href="<?php echo url('login.php'); ?>">سجل الدخول</a> لإضافة تقييمك
+            <a href="<?php echo url('login.php'); ?>">Login</a> to add your review
         </div>
     <?php endif; ?>
     

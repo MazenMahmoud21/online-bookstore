@@ -44,15 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Validation
     if (empty($formData['isbn']) || empty($formData['title']) || empty($formData['authors'])) {
-        $error = 'الرجاء ملء جميع الحقول المطلوبة';
+        $error = 'Please fill in all required fields';
     } elseif ($formData['price'] <= 0) {
-        $error = 'السعر يجب أن يكون أكبر من صفر';
+        $error = 'Price must be greater than zero';
     } else {
         // Check if ISBN exists
         $existing = dbQuerySingle("SELECT isbn FROM books WHERE isbn = ?", [$formData['isbn']]);
         
         if ($existing) {
-            $error = 'رقم ISBN موجود بالفعل';
+            $error = 'This ISBN already exists';
         } else {
             try {
                 dbExecute(
@@ -75,34 +75,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: ' . url('admin/books.php?added=1'));
                 exit;
             } catch (PDOException $e) {
-                $error = 'حدث خطأ أثناء إضافة الكتاب';
+                $error = 'An error occurred while adding the book';
             }
         }
     }
 }
 
-$pageTitle = 'إضافة كتاب جديد';
+$pageTitle = 'Add New Book';
 require_once '../includes/header.php';
 ?>
 
 <div class="admin-layout">
-    <aside class="admin-sidebar">
-        <h3>⚙️ الإدارة</h3>
-        <ul class="admin-nav">
-            <li><a href="/admin/dashboard.php">📊 لوحة التحكم</a></li>
-            <li><a href="/admin/books.php">📚 إدارة الكتب</a></li>
-            <li><a href="/admin/add_book.php" class="active">➕ إضافة كتاب</a></li>
-            <li><a href="/admin/publishers.php">🏢 الناشرين</a></li>
-            <li><a href="/admin/view_orders.php">📦 طلبات التوريد</a></li>
-            <li><a href="/admin/customers.php">👥 العملاء</a></li>
-            <li><a href="/admin/sales.php">💰 المبيعات</a></li>
-            <li><a href="/admin/reports.php">📈 التقارير</a></li>
-        </ul>
-    </aside>
+    <?php require_once '../includes/admin_sidebar.php'; ?>
     
     <main>
         <div class="page-header">
-            <h1>➕ إضافة كتاب جديد</h1>
+            <h1>
+                <span style="vertical-align: middle; margin-right: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#006c35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                </span>
+                Add New Book
+            </h1>
         </div>
         
         <?php if ($error): ?>
@@ -121,21 +114,21 @@ require_once '../includes/header.php';
                         </div>
                         
                         <div class="form-group">
-                            <label for="title">عنوان الكتاب *</label>
+                            <label for="title">Book Title *</label>
                             <input type="text" id="title" name="title" class="form-control" required
                                    value="<?php echo htmlspecialchars($formData['title']); ?>">
                         </div>
                         
                         <div class="form-group">
-                            <label for="authors">المؤلف *</label>
+                            <label for="authors">Author *</label>
                             <input type="text" id="authors" name="authors" class="form-control" required
                                    value="<?php echo htmlspecialchars($formData['authors']); ?>">
                         </div>
                         
                         <div class="form-group">
-                            <label for="publisher_id">دار النشر</label>
+                            <label for="publisher_id">Publisher</label>
                             <select id="publisher_id" name="publisher_id" class="form-control">
-                                <option value="">-- اختر دار النشر --</option>
+                                <option value="">-- Select Publisher --</option>
                                 <?php foreach ($publishers as $pub): ?>
                                     <option value="<?php echo $pub['id']; ?>" 
                                             <?php echo $formData['publisher_id'] == $pub['id'] ? 'selected' : ''; ?>>
@@ -146,7 +139,7 @@ require_once '../includes/header.php';
                         </div>
                         
                         <div class="form-group">
-                            <label for="category">التصنيف</label>
+                            <label for="category">Category</label>
                             <input type="text" id="category" name="category" class="form-control" list="categories"
                                    value="<?php echo htmlspecialchars($formData['category']); ?>">
                             <datalist id="categories">
@@ -157,41 +150,41 @@ require_once '../includes/header.php';
                         </div>
                         
                         <div class="form-group">
-                            <label for="year">سنة النشر</label>
+                            <label for="year">Publication Year</label>
                             <input type="number" id="year" name="year" class="form-control" 
                                    min="1900" max="<?php echo date('Y'); ?>"
                                    value="<?php echo $formData['year']; ?>">
                         </div>
                         
                         <div class="form-group">
-                            <label for="price">السعر (ريال) *</label>
+                            <label for="price">Price (EGP) *</label>
                             <input type="number" id="price" name="price" class="form-control" required
                                    min="0" step="0.01"
                                    value="<?php echo $formData['price']; ?>">
                         </div>
                         
                         <div class="form-group">
-                            <label for="stock">الكمية المتوفرة</label>
+                            <label for="stock">Available Quantity</label>
                             <input type="number" id="stock" name="stock" class="form-control" min="0"
                                    value="<?php echo $formData['stock']; ?>">
                         </div>
                         
                         <div class="form-group">
-                            <label for="threshold">الحد الأدنى للمخزون</label>
+                            <label for="threshold">Minimum Stock Level</label>
                             <input type="number" id="threshold" name="threshold" class="form-control" min="1"
                                    value="<?php echo $formData['threshold']; ?>">
-                            <small class="form-hint">سيتم إنشاء طلب توريد تلقائي عند انخفاض المخزون عن هذا الحد</small>
+                            <small class="form-hint">A supply order will be automatically created when stock falls below this level</small>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="description">وصف الكتاب</label>
+                        <label for="description">Book Description</label>
                         <textarea id="description" name="description" class="form-control" rows="4"><?php echo htmlspecialchars($formData['description']); ?></textarea>
                     </div>
                     
                     <div style="display: flex; gap: 15px;">
-                        <button type="submit" class="btn btn-primary btn-lg">حفظ الكتاب</button>
-                        <a href="/admin/books.php" class="btn btn-secondary btn-lg">إلغاء</a>
+                        <button type="submit" class="btn btn-primary btn-lg">Save Book</button>
+                        <a href="/admin/books.php" class="btn btn-secondary btn-lg">Cancel</a>
                     </div>
                 </form>
             </div>

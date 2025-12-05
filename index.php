@@ -1,9 +1,9 @@
 <?php
 /**
- * Homepage - الصفحة الرئيسية
+ * Homepage
  */
 
-$pageTitle = 'الصفحة الرئيسية';
+$pageTitle = 'Home';
 require_once 'includes/db.php';
 require_once 'includes/header.php';
 
@@ -29,106 +29,192 @@ $stats = dbQuerySingle(
 ?>
 
 <!-- Hero Section -->
-<section class="hero">
-    <h1><i class="ph-duotone ph-house"></i> مرحباً بكم في المكتبة الإلكترونية</h1>
-    <p>وجهتكم الأولى للكتب العربية في المملكة العربية السعودية</p>
-    
-    <form class="search-box" action="<?php echo url('search.php'); ?>" method="GET">
-        <input type="text" name="q" placeholder="ابحث عن كتاب بالعنوان، المؤلف، أو ISBN..." required>
-        <button type="submit" class="btn btn-secondary"><i class="ph ph-magnifying-glass"></i> بحث</button>
-    </form>
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title">Discover Your Next Great Read</h1>
+            <p class="hero-subtitle">Egypt's premier online bookstore with thousands of titles at your fingertips</p>
+            
+            <form class="hero-search-box" action="<?php echo url('search.php'); ?>" method="GET">
+                <div class="search-input-wrapper">
+                    <i data-feather="search"></i>
+                    <input type="text" name="q" placeholder="Search for books, authors, or ISBN..." required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span>Search</span>
+                    <i data-feather="arrow-right"></i>
+                </button>
+            </form>
+            
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i data-feather="truck"></i>
+                    <span>Free Shipping</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-feather="check-circle"></i>
+                    <span>Secure Payment</span>
+                </div>
+                <div class="hero-feature">
+                    <i data-feather="rotate-cw"></i>
+                    <span>Easy Returns</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-image">
+            <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#1a4d2e;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4caf50;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="100" y="100" width="120" height="180" fill="url(#bookGradient)" rx="5"/>
+                <rect x="105" y="105" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
+                <rect x="105" y="130" width="80" height="3" fill="rgba(255,255,255,0.5)" rx="2"/>
+                <rect x="105" y="140" width="90" height="3" fill="rgba(255,255,255,0.5)" rx="2"/>
+                <rect x="240" y="120" width="120" height="180" fill="#2e7d4e" rx="5"/>
+                <rect x="245" y="125" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
+                <rect x="180" y="140" width="120" height="180" fill="#5fa778" rx="5"/>
+                <rect x="185" y="145" width="110" height="20" fill="rgba(255,255,255,0.3)" rx="3"/>
+            </svg>
+        </div>
+    </div>
 </section>
 
 <!-- Statistics -->
-<section class="dashboard-grid" style="margin-bottom: 40px;">
-    <div class="stat-card">
-        <div class="icon"><i class="ph-duotone ph-books"></i></div>
-        <div class="value"><?php echo number_format($stats['book_count']); ?></div>
-        <div class="label">كتاب متوفر</div>
-    </div>
-    <div class="stat-card">
-        <div class="icon"><i class="ph-duotone ph-users"></i></div>
-        <div class="value"><?php echo number_format($stats['customer_count']); ?></div>
-        <div class="label">عميل مسجل</div>
-    </div>
-    <div class="stat-card">
-        <div class="icon"><i class="ph-duotone ph-buildings"></i></div>
-        <div class="value"><?php echo number_format($stats['publisher_count']); ?></div>
-        <div class="label">دار نشر</div>
-    </div>
-    <div class="stat-card">
-        <div class="icon"><i class="ph-duotone ph-truck"></i></div>
-        <div class="value">مجاني</div>
-        <div class="label">التوصيل للرياض</div>
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i data-feather="book-open"></i>
+                </div>
+                <div class="stat-value"><?php echo number_format($stats['book_count']); ?>+</div>
+                <div class="stat-label">Books Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i data-feather="users"></i>
+                </div>
+                <div class="stat-value"><?php echo number_format($stats['customer_count']); ?>+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i data-feather="briefcase"></i>
+                </div>
+                <div class="stat-value"><?php echo number_format($stats['publisher_count']); ?>+</div>
+                <div class="stat-label">Publishers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i data-feather="truck"></i>
+                </div>
+                <div class="stat-value">Free</div>
+                <div class="stat-label">Delivery in Cairo</div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- Categories -->
-<section style="margin-bottom: 40px;">
-    <div class="page-header">
-        <h2><i class="ph-duotone ph-folder-open"></i> تصفح حسب التصنيف</h2>
-    </div>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <?php foreach ($categories as $cat): ?>
-            <a href="<?php echo url('books.php?category=' . urlencode($cat['category'])); ?>" class="btn btn-secondary">
-                <?php echo htmlspecialchars($cat['category']); ?>
+<section class="categories-section">
+    <div class="container">
+        <div class="section-header">
+            <h2><i data-feather="grid"></i> Browse by Category</h2>
+            <p>Explore our wide selection of books across different genres</p>
+        </div>
+        <div class="categories-grid">
+            <?php foreach ($categories as $cat): ?>
+                <a href="<?php echo url('books.php?category=' . urlencode($cat['category'])); ?>" class="category-card">
+                    <i data-feather="bookmark"></i>
+                    <span><?php echo htmlspecialchars($cat['category']); ?></span>
+                </a>
+            <?php endforeach; ?>
+            <a href="<?php echo url('books.php'); ?>" class="category-card view-all">
+                <i data-feather="arrow-right"></i>
+                <span>View All</span>
             </a>
-        <?php endforeach; ?>
-        <a href="<?php echo url('books.php'); ?>" class="btn btn-primary">عرض الكل</a>
+        </div>
     </div>
 </section>
 
 <!-- Featured Books -->
-<section>
-    <div class="page-header">
-        <h2><i class="ph-duotone ph-book-open"></i> أحدث الكتب</h2>
-        <p>اكتشف أحدث الإصدارات في مكتبتنا</p>
-    </div>
-    
-    <?php if (empty($featuredBooks)): ?>
-        <div class="empty-state">
-            <div class="empty-state-icon"><i class="ph-duotone ph-books"></i></div>
-            <h3>لا توجد كتب حالياً</h3>
-            <p>سيتم إضافة كتب جديدة قريباً</p>
-        </div>
-    <?php else: ?>
-        <div class="books-grid">
-            <?php foreach ($featuredBooks as $book): ?>
-                <div class="book-card">
-                    <div class="book-card-image"><i class="ph-duotone ph-book"></i></div>
-                    <div class="book-card-content">
-                        <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
-                        <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>
-                        <p class="book-card-author"><?php echo htmlspecialchars($book['authors']); ?></p>
-                        <div class="book-card-price"><?php echo number_format($book['price'], 2); ?> ريال</div>
-                        <div class="book-card-stock <?php echo $book['stock'] <= 0 ? 'out' : ($book['stock'] < $book['threshold'] ? 'low' : ''); ?>">
-                            <?php 
-                            if ($book['stock'] <= 0) {
-                                echo 'غير متوفر';
-                            } elseif ($book['stock'] < $book['threshold']) {
-                                echo 'كمية محدودة (' . $book['stock'] . ')';
-                            } else {
-                                echo 'متوفر';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <div class="book-card-actions">
-                        <a href="<?php echo url('book.php?isbn=' . urlencode($book['isbn'])); ?>" class="btn btn-secondary btn-sm" style="flex: 1;">التفاصيل</a>
-                        <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
-                            <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
-                                🛒 أضف للسلة
-                            </button>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+<section class="featured-books-section">
+    <div class="container">
+        <div class="section-header">
+            <h2><i data-feather="star"></i> Latest Releases</h2>
+            <p>Discover the newest additions to our collection</p>
         </div>
         
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="<?php echo url('books.php'); ?>" class="btn btn-primary btn-lg">عرض جميع الكتب</a>
-        </div>
-    <?php endif; ?>
+        <?php if (empty($featuredBooks)): ?>
+            <div class="empty-state">
+                <div class="empty-state-icon"><i data-feather="inbox"></i></div>
+                <h3>No Books Available</h3>
+                <p>New books will be added soon</p>
+            </div>
+        <?php else: ?>
+            <div class="books-grid">
+                <?php foreach ($featuredBooks as $book): ?>
+                    <div class="book-card">
+                        <div class="book-card-image">
+                            <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="200" height="280" fill="#f0f0f0" rx="4"/>
+                                <rect x="20" y="30" width="160" height="40" fill="#1a4d2e" opacity="0.1" rx="3"/>
+                                <rect x="20" y="90" width="120" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/>
+                                <rect x="20" y="110" width="140" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/>
+                                <rect x="20" y="130" width="100" height="8" fill="#1a4d2e" opacity="0.05" rx="2"/>
+                            </svg>
+                        </div>
+                        <div class="book-card-content">
+                            <span class="book-card-category"><?php echo htmlspecialchars($book['category']); ?></span>
+                            <h3 class="book-card-title"><?php echo htmlspecialchars($book['title']); ?></h3>
+                            <p class="book-card-author"><?php echo htmlspecialchars($book['authors']); ?></p>
+                            <div class="book-card-price">EGP <?php echo number_format($book['price'], 2); ?></div>
+                            <div class="book-card-stock <?php echo $book['stock'] <= 0 ? 'out' : ($book['stock'] < $book['threshold'] ? 'low' : ''); ?>">
+                                <i data-feather="<?php echo $book['stock'] > 0 ? 'check-circle' : 'x-circle'; ?>"></i>
+                                <?php 
+                                if ($book['stock'] <= 0) {
+                                    echo 'Out of Stock';
+                                } elseif ($book['stock'] < $book['threshold']) {
+                                    echo 'Limited Stock (' . $book['stock'] . ')';
+                                } else {
+                                    echo 'In Stock';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="book-card-actions">
+                            <a href="<?php echo url('book.php?isbn=' . urlencode($book['isbn'])); ?>" class="btn btn-secondary btn-sm">
+                                <i data-feather="eye"></i>
+                                <span>View Details</span>
+                            </a>
+                            <?php if (isLoggedIn() && !isAdmin() && $book['stock'] > 0): ?>
+                                <button onclick="addToCart('<?php echo $book['isbn']; ?>')" class="btn btn-primary btn-sm">
+                                    <i data-feather="shopping-cart"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <div class="section-footer">
+                <a href="<?php echo url('books.php'); ?>" class="btn btn-primary btn-lg">
+                    <span>View All Books</span>
+                    <i data-feather="arrow-right"></i>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
 </section>
+
+<script>
+    // Initialize Feather Icons
+    feather.replace();
+</script>
 
 <?php require_once 'includes/footer.php'; ?>

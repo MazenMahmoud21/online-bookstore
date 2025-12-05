@@ -6,69 +6,66 @@
             <div class="footer-content">
                 <div class="footer-section footer-brand">
                     <div class="footer-logo">
-                        <i class="ph-duotone ph-books"></i>
-                        <span>المكتبة الإلكترونية</span>
+                        <i data-feather="book-open"></i>
+                        <span>Egyptian Bookstore</span>
                     </div>
-                    <p>وجهتك الأولى للكتب العربية في المملكة العربية السعودية. نوفر لك أفضل الكتب بأسعار منافسة وتوصيل سريع.</p>
+                    <p>Your premier destination for books in Egypt. We offer the best selection with competitive prices and fast delivery across Cairo and beyond.</p>
                     <div class="footer-badges">
-                        <span class="badge-trust"><i class="ph ph-shield-check"></i> موقع آمن</span>
-                        <span class="badge-trust"><i class="ph ph-truck"></i> توصيل سريع</span>
+                        <span class="badge-trust"><i data-feather="shield"></i> Secure Site</span>
+                        <span class="badge-trust"><i data-feather="truck"></i> Fast Delivery</span>
                     </div>
                 </div>
                 
                 <div class="footer-section">
-                    <h3><i class="ph ph-link"></i> روابط سريعة</h3>
+                    <h3><i data-feather="link"></i> Quick Links</h3>
                     <ul>
-                        <li><a href="<?php echo url('index.php'); ?>"><i class="ph ph-house"></i> الرئيسية</a></li>
-                        <li><a href="<?php echo url('books.php'); ?>"><i class="ph ph-book-open"></i> الكتب</a></li>
-                        <li><a href="<?php echo url('about.php'); ?>"><i class="ph ph-info"></i> عن المكتبة</a></li>
-                        <li><a href="<?php echo url('contact.php'); ?>"><i class="ph ph-envelope"></i> اتصل بنا</a></li>
+                        <li><a href="<?php echo url('index.php'); ?>"><i data-feather="home"></i> Home</a></li>
+                        <li><a href="<?php echo url('books.php'); ?>"><i data-feather="book-open"></i> Books</a></li>
+                        <li><a href="<?php echo url('index.php'); ?>"><i data-feather="info"></i> About Us</a></li>
+                        <li><a href="<?php echo url('index.php'); ?>"><i data-feather="mail"></i> Contact</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3><i class="ph ph-headset"></i> خدمة العملاء</h3>
+                    <h3><i data-feather="headphones"></i> Customer Service</h3>
                     <ul>
-                        <li><a href="<?php echo url('faq.php'); ?>"><i class="ph ph-question"></i> الأسئلة الشائعة</a></li>
-                        <li><a href="<?php echo url('shipping.php'); ?>"><i class="ph ph-truck"></i> سياسة الشحن</a></li>
-                        <li><a href="<?php echo url('returns.php'); ?>"><i class="ph ph-arrow-u-up-left"></i> الإرجاع والاستبدال</a></li>
-                        <li><a href="<?php echo url('privacy.php'); ?>"><i class="ph ph-lock"></i> سياسة الخصوصية</a></li>
+                        <li><a href="#"><i data-feather="help-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i data-feather="truck"></i> Shipping Policy</a></li>
+                        <li><a href="#"><i data-feather="rotate-ccw"></i> Returns & Exchanges</a></li>
+                        <li><a href="#"><i data-feather="lock"></i> Privacy Policy</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3><i class="ph ph-phone"></i> تواصل معنا</h3>
+                    <h3><i data-feather="phone"></i> Contact Us</h3>
                     <ul class="contact-info">
                         <li>
-                            <i class="ph-duotone ph-map-pin"></i>
-                            <span>الرياض، المملكة العربية السعودية</span>
+                            <i data-feather="map-pin"></i>
+                            <span>Cairo, Egypt</span>
                         </li>
                         <li>
-                            <i class="ph-duotone ph-phone"></i>
-                            <a href="tel:920012345">920012345</a>
+                            <i data-feather="phone"></i>
+                            <a href="tel:+201234567890">+20 123 456 7890</a>
                         </li>
                         <li>
-                            <i class="ph-duotone ph-envelope"></i>
-                            <a href="mailto:info@bookstore.sa">info@bookstore.sa</a>
+                            <i data-feather="mail"></i>
+                            <a href="mailto:info@bookstore.eg">info@bookstore.eg</a>
                         </li>
                     </ul>
                     
-                    <h4>تابعنا</h4>
+                    <h4>Follow Us</h4>
                     <div class="social-links">
-                        <a href="#" title="تويتر" aria-label="تويتر">
-                            <i class="ph-duotone ph-x-logo"></i>
+                        <a href="#" title="Twitter" aria-label="Twitter">
+                            <i data-feather="twitter"></i>
                         </a>
-                        <a href="#" title="انستغرام" aria-label="انستغرام">
-                            <i class="ph-duotone ph-instagram-logo"></i>
+                        <a href="#" title="Instagram" aria-label="Instagram">
+                            <i data-feather="instagram"></i>
                         </a>
-                        <a href="#" title="فيسبوك" aria-label="فيسبوك">
-                            <i class="ph-duotone ph-facebook-logo"></i>
+                        <a href="#" title="Facebook" aria-label="Facebook">
+                            <i data-feather="facebook"></i>
                         </a>
-                        <a href="#" title="يوتيوب" aria-label="يوتيوب">
-                            <i class="ph-duotone ph-youtube-logo"></i>
-                        </a>
-                        <a href="#" title="واتساب" aria-label="واتساب">
-                            <i class="ph-duotone ph-whatsapp-logo"></i>
+                        <a href="#" title="YouTube" aria-label="YouTube">
+                            <i data-feather="youtube"></i>
                         </a>
                     </div>
                 </div>
@@ -76,25 +73,25 @@
             
             <div class="footer-newsletter">
                 <div class="newsletter-content">
-                    <h3><i class="ph ph-envelope-simple"></i> اشترك في النشرة البريدية</h3>
-                    <p>احصل على أحدث العروض والإصدارات الجديدة</p>
+                    <h3><i data-feather="mail"></i> Subscribe to Newsletter</h3>
+                    <p>Get the latest offers and new releases</p>
                 </div>
                 <form class="newsletter-form" action="#" method="POST">
-                    <input type="email" placeholder="بريدك الإلكتروني" required>
+                    <input type="email" placeholder="Your email address" required>
                     <button type="submit" class="btn btn-primary">
-                        <i class="ph ph-paper-plane-tilt"></i>
-                        <span>اشتراك</span>
+                        <i data-feather="send"></i>
+                        <span>Subscribe</span>
                     </button>
                 </form>
             </div>
             
             <div class="footer-bottom">
-                <p>جميع الحقوق محفوظة &copy; <?php echo date('Y'); ?> المكتبة الإلكترونية</p>
+                <p>All Rights Reserved &copy; <?php echo date('Y'); ?> Egyptian Bookstore</p>
                 <div class="footer-payment">
-                    <span>طرق الدفع:</span>
-                    <i class="ph-duotone ph-credit-card" title="بطاقة ائتمان"></i>
-                    <i class="ph-duotone ph-apple-logo" title="Apple Pay"></i>
-                    <i class="ph-duotone ph-bank" title="تحويل بنكي"></i>
+                    <span>Payment Methods:</span>
+                    <i data-feather="credit-card" title="Credit Card"></i>
+                    <i data-feather="smartphone" title="Mobile Payment"></i>
+                    <i data-feather="dollar-sign" title="Cash on Delivery"></i>
                 </div>
             </div>
         </div>
@@ -106,10 +103,16 @@
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="loading-overlay" style="display: none;">
         <div class="loading-spinner">
-            <i class="ph-duotone ph-spinner"></i>
+            <i data-feather="loader"></i>
         </div>
     </div>
     
+    <script>
+        // Initialize Feather Icons in footer
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    </script>
     <script src="<?php echo asset('js/main.js'); ?>"></script>
 </body>
 </html>
