@@ -8,16 +8,16 @@ USE online_bookstore;
 -- =============================================
 -- Clear existing data (in reverse order due to foreign keys)
 -- =============================================
+SET FOREIGN_KEY_CHECKS = 0;
+
 DELETE FROM orders_from_publishers;
 DELETE FROM sales_items;
 DELETE FROM sales;
-DELETE FROM reviews;
-DELETE FROM wishlist;
-DELETE FROM cart;
 DELETE FROM books;
 DELETE FROM customers;
 DELETE FROM publishers;
-DELETE FROM coupons;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- Reset auto-increment counters
 ALTER TABLE publishers AUTO_INCREMENT = 1;
