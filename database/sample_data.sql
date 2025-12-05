@@ -6,6 +6,26 @@
 USE online_bookstore;
 
 -- =============================================
+-- Clear existing data (in reverse order due to foreign keys)
+-- =============================================
+DELETE FROM orders_from_publishers;
+DELETE FROM sales_items;
+DELETE FROM sales;
+DELETE FROM reviews;
+DELETE FROM wishlist;
+DELETE FROM cart;
+DELETE FROM books;
+DELETE FROM customers;
+DELETE FROM publishers;
+DELETE FROM coupons;
+
+-- Reset auto-increment counters
+ALTER TABLE publishers AUTO_INCREMENT = 1;
+ALTER TABLE customers AUTO_INCREMENT = 1;
+ALTER TABLE sales AUTO_INCREMENT = 1;
+ALTER TABLE orders_from_publishers AUTO_INCREMENT = 1;
+
+-- =============================================
 -- Publishers Data - Example Publishers
 -- =============================================
 INSERT INTO publishers (name, address, phone) VALUES
