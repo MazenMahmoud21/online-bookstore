@@ -1,29 +1,29 @@
 /**
  * Online Bookstore - Main Stylesheet
  * نظام المكتبة الإلكترونية - ملف التنسيق الرئيسي
- * Theme: Saudi Arabia (Green & White)
+ * Theme: Clean Bookish - Apple Style
  */
 
 /* =============================================
    CSS Variables
    ============================================= */
 :root {
-    --primary-color: #006c35;
-    --primary-dark: #004d26;
-    --primary-light: #00a651;
+    --primary-color: #1d1d1f;
+    --primary-dark: #000000;
+    --primary-light: #424245;
     --secondary-color: #ffffff;
-    --accent-color: #d4af37;
-    --text-color: #333333;
-    --text-light: #666666;
-    --background-color: #f5f5f5;
-    --border-color: #e0e0e0;
-    --error-color: #e74c3c;
-    --success-color: #27ae60;
-    --warning-color: #f39c12;
-    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
-    --border-radius: 8px;
-    --transition: all 0.3s ease;
+    --accent-color: #0071e3;
+    --text-color: #1d1d1f;
+    --text-light: #86868b;
+    --background-color: #f5f5f7;
+    --border-color: #d2d2d7;
+    --error-color: #ff3b30;
+    --success-color: #34c759;
+    --warning-color: #ff9500;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.12);
+    --border-radius: 12px;
+    --transition: all 0.2s ease;
 }
 
 /* =============================================
@@ -84,13 +84,15 @@ ul {
    Header
    ============================================= */
 .main-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: var(--secondary-color);
-    padding: 15px 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    color: var(--text-color);
+    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .header-content {
@@ -105,9 +107,9 @@ ul {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--secondary-color);
-    font-size: 1.5rem;
-    font-weight: 700;
+    color: var(--text-color);
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .logo-icon {
@@ -121,15 +123,17 @@ ul {
 }
 
 .main-nav a {
-    color: var(--secondary-color);
-    padding: 8px 15px;
+    color: var(--text-color);
+    padding: 8px 12px;
     border-radius: var(--border-radius);
     transition: var(--transition);
+    font-size: 0.9rem;
 }
 
 .main-nav a:hover,
 .main-nav a.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--background-color);
+    color: var(--accent-color);
 }
 
 .header-actions {
@@ -140,20 +144,20 @@ ul {
 
 .cart-icon {
     position: relative;
-    font-size: 1.5rem;
-    color: var(--secondary-color);
+    font-size: 1.3rem;
+    color: var(--text-color);
 }
 
 .cart-count {
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: var(--error-color);
+    background-color: var(--accent-color);
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     padding: 2px 6px;
-    border-radius: 50%;
-    min-width: 20px;
+    border-radius: 10px;
+    min-width: 18px;
     text-align: center;
 }
 
@@ -166,8 +170,8 @@ ul {
     display: none;
     background: transparent;
     border: none;
-    color: white;
-    font-size: 1.5rem;
+    color: var(--text-color);
+    font-size: 1.3rem;
     cursor: pointer;
 }
 
@@ -183,10 +187,11 @@ ul {
    Footer
    ============================================= */
 .main-footer {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
-    color: var(--secondary-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
     padding: 40px 0 20px;
     margin-top: auto;
+    border-top: 1px solid var(--border-color);
 }
 
 .footer-content {
@@ -197,10 +202,12 @@ ul {
 }
 
 .footer-section h3 {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 15px;
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 10px;
+    color: var(--text-light);
 }
 
 .footer-section ul li {
@@ -208,11 +215,12 @@ ul {
 }
 
 .footer-section a {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-light);
+    font-size: 0.9rem;
 }
 
 .footer-section a:hover {
-    color: var(--secondary-color);
+    color: var(--accent-color);
 }
 
 .social-links {
@@ -221,15 +229,20 @@ ul {
 }
 
 .social-links a {
-    font-size: 1.5rem;
-    color: var(--secondary-color);
+    font-size: 1.3rem;
+    color: var(--text-light);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
 }
 
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    opacity: 0.8;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-size: 0.85rem;
 }
 
 /* =============================================
@@ -249,24 +262,24 @@ ul {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: var(--secondary-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-dark);
+    background-color: #0077ed;
     color: var(--secondary-color);
 }
 
 .btn-secondary {
     background-color: var(--secondary-color);
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .btn-danger {
@@ -284,7 +297,7 @@ ul {
 }
 
 .btn-success:hover {
-    background-color: #219a52;
+    background-color: #2db84d;
 }
 
 .btn-sm {
@@ -329,8 +342,8 @@ ul {
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 108, 53, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
 }
 
 .form-control.error {
@@ -378,10 +391,11 @@ select.form-control {
 }
 
 .card-header {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
     padding: 15px 20px;
     font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .card-body {
@@ -418,12 +432,12 @@ select.form-control {
 
 .book-card-image {
     height: 200px;
-    background-color: #e8f5e9;
+    background-color: #f5f5f7;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 4rem;
-    color: var(--primary-color);
+    color: var(--text-light);
 }
 
 .book-card-content {
@@ -445,18 +459,18 @@ select.form-control {
 
 .book-card-price {
     font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
 .book-card-category {
     display: inline-block;
-    background-color: var(--primary-light);
-    color: var(--secondary-color);
-    padding: 3px 10px;
-    border-radius: 15px;
-    font-size: 0.8rem;
+    background-color: var(--background-color);
+    color: var(--text-light);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
     margin-bottom: 10px;
 }
 
@@ -504,9 +518,10 @@ select.form-control {
 }
 
 .data-table th {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
     font-weight: 600;
+    font-size: 0.85rem;
 }
 
 .data-table tbody tr:hover {
@@ -555,22 +570,24 @@ select.form-control {
    Hero Section
    ============================================= */
 .hero {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     padding: 60px 0;
     text-align: center;
     margin-bottom: 40px;
     border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
 }
 
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .hero p {
-    font-size: 1.2rem;
-    opacity: 0.9;
+    font-size: 1.1rem;
+    color: var(--text-light);
     margin-bottom: 25px;
 }
 
@@ -586,10 +603,11 @@ select.form-control {
 
 .search-box input {
     flex: 1;
-    padding: 15px 20px;
-    border: none;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 1rem;
+    background-color: var(--background-color);
 }
 
 .search-box button {
@@ -605,8 +623,9 @@ select.form-control {
 
 .page-header h1 {
     font-size: 2rem;
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .page-header p {
@@ -650,15 +669,15 @@ select.form-control {
 }
 
 .pagination a:hover {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border-color: var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--accent-color);
+    border-color: var(--border-color);
 }
 
 .pagination .active {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: var(--secondary-color);
-    border-color: var(--primary-color);
+    border-color: var(--accent-color);
 }
 
 /* =============================================
@@ -678,9 +697,10 @@ select.form-control {
 
 .auth-card h2 {
     text-align: center;
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 30px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
 }
 
 .auth-footer {
@@ -715,8 +735,8 @@ select.form-control {
 
 .stat-card .value {
     font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 5px;
 }
 
@@ -743,7 +763,7 @@ select.form-control {
 .cart-item-image {
     width: 80px;
     height: 100px;
-    background-color: #e8f5e9;
+    background-color: var(--background-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -761,7 +781,7 @@ select.form-control {
 }
 
 .cart-item-price {
-    color: var(--primary-color);
+    color: var(--text-color);
     font-weight: 600;
 }
 
@@ -800,8 +820,8 @@ select.form-control {
 
 .cart-summary-total {
     font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 600;
+    color: var(--text-color);
     padding-top: 15px;
     border-top: 2px solid var(--border-color);
     margin-top: 15px;
@@ -817,13 +837,13 @@ select.form-control {
 }
 
 .book-image-large {
-    background-color: #e8f5e9;
+    background-color: var(--background-color);
     height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 8rem;
-    color: var(--primary-color);
+    color: var(--text-light);
     border-radius: var(--border-radius);
 }
 
@@ -839,8 +859,8 @@ select.form-control {
 
 .book-price-large {
     font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    font-weight: 600;
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
@@ -886,10 +906,12 @@ select.form-control {
 }
 
 .admin-sidebar h3 {
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 .admin-nav li {
@@ -905,7 +927,7 @@ select.form-control {
 
 .admin-nav a:hover,
 .admin-nav a.active {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: var(--secondary-color);
 }
 
@@ -951,7 +973,7 @@ select.form-control {
 }
 
 .modal-header h3 {
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .modal-close {
@@ -1032,7 +1054,7 @@ select.form-control {
     width: 40px;
     height: 40px;
     border: 4px solid var(--border-color);
-    border-top-color: var(--primary-color);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
